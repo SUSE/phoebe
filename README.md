@@ -5,6 +5,12 @@
 Phoeβe wants to add base artificial intelligence capabilities to the Linux OS.
 </p>
 
+## Architecture
+<p>
+Phoeβe is designed with a plugin architecture in mind, providing an interface for new functionalities to be added at ease.<br><br>
+Plugins are loaded at runtime and registered with the main body of execution. The only requirement is to implement the interface dictated by the structure <i>plugin_t</i>. The <strong>network_plugin.c</strong> represents a very good example of how to implement a new plugin for Phoeβe.
+</p>
+
 ## Disclaimer
 <p>
 The mathematical model implemented is a super basic one, which contemplates a <i>machine-learning 101</i> approach: 
