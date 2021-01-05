@@ -149,7 +149,8 @@ int writeRow(FILE *fp, tuning_params_t *row) {
 int readSettingsFromJsonFile(char *settingsFileName, app_settings_t *settings,
                              weights_reference_t *weights, double *bias) {
     FILE *fp;
-    char buffer[BUFFER_SIZE];
+    size_t read_size;
+    char buffer[BUFFER_SIZE + 1];
 
     struct json_object *parsed_json;
     struct json_object *transfer_rate_weight;
@@ -172,7 +173,8 @@ int readSettingsFromJsonFile(char *settingsFileName, app_settings_t *settings,
     if ((fp = fopen(settingsFileName, "r")) == NULL)
         return RET_FAIL;
 
-    fread(buffer, BUFFER_SIZE, 1, fp);
+    read_size = fread(buffer, 1, BUFFER_SIZE, fp);
+    buffer[read_size] = '\0';
     fclose(fp);
 
     parsed_json = json_tokener_parse(buffer);
