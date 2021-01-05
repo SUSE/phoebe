@@ -201,7 +201,10 @@ int readSettingsFromJsonFile(char *settingsFileName, app_settings_t *settings,
     settings->inference_loop_period =
         json_object_get_double(inference_loop_period);
 
-    settings->plugins_path = json_object_get_string(plugins_path);
+    assert(sizeof(settings->plugins_path) >
+           json_object_get_string_len(plugins_path));
+    memcpy(settings->plugins_path, json_object_get_string(plugins_path),
+           json_object_get_string_len(plugins_path) + 1);
 
     write_adv_log("settings->plugins_path: %s\n", settings->plugins_path);
 
@@ -251,6 +254,8 @@ int readSettingsFromJsonFile(char *settingsFileName, app_settings_t *settings,
     write_adv_log("errors_rate_weight: %lf\n", weights->errors_rate_weight);
     write_adv_log("fifo_errors_rate_weight: %lf\n",
                   weights->fifo_errors_rate_weight);
+
+    json_object_put(parsed_json);
 
     if ((weights->transfer_rate_weight + weights->drop_rate_weight +
          weights->errors_rate_weight + weights->fifo_errors_rate_weight) > 1) {

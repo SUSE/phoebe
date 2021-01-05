@@ -89,6 +89,7 @@ def compile_module(output_filename):
     # Doing it manually for now
     definitions += '''\
     #define MAX_CPU_NAME_LENGTH 7
+    #define MAX_FILENAME_LENGTH 255
     #define MAX_INTERFACE_NAME_LENGTH 255
     '''
 
