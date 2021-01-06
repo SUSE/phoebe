@@ -181,7 +181,13 @@ int endsWith(const char *str, const char *suffix) {
     return strncmp(str + lenstr - lensuffix, suffix, lensuffix) == 0;
 }
 
-void registerAllPlugins() {
+/**
+ * @brief Registers all plugins found in the plugins_path folder.
+ *
+ * @return The number of plugins that were loaded.
+ */
+int registerAllPlugins() {
+    int registered_plugin_count = 0;
     void *handle;
     char *error;
 
@@ -218,10 +224,13 @@ void registerAllPlugins() {
                 networkPlugin = getPluginInstance();
                 networkPlugin->init(interfaceName, &app_settings, &system_settings, &weights,
                                     &reference_values, bias);
+
+                registered_plugin_count++;
             }
         }
         closedir(d);
     }
+    return registered_plugin_count;
 }
 
 int main(int argc, char **argv) {
@@ -279,7 +288,10 @@ int main(int argc, char **argv) {
               sizeof(tuning_params_t) * reference_values.totalLength +
                   sizeof(all_values_t));
 
-    registerAllPlugins();
+    if (registerAllPlugins() == 0) {
+        write_log("No plugins were registered! Cannot run any training");
+        return EXIT_FAILURE;
+    }
 
     /*
         printTable(&allValues);
