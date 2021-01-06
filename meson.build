@@ -11,7 +11,20 @@ cc = meson.get_compiler('c')
 m = cc.find_library('m', required : true)
 dl = cc.find_library('dl', required : true)
 
-add_project_arguments('-DPRINT_MSGS', language : 'c')
+options = [
+  ['print_messages', 'PRINT_MSGS'],
+  ['print_advanced_messages', 'PRINT_ADV_MSGS'],
+  ['print_table', 'PRINT_TABLE'],
+  ['apply_changes', 'APPLY_CHANGES'],
+  ['check_initial_settings', 'CHECK_INITIAL_SETTINGS'],
+  ['m_threads', 'M_THREADS']
+]
+
+foreach opt : options
+  if get_option(opt[0])
+    add_project_arguments('-D@0@'.format(opt[1]), language : 'c')
+  endif
+endforeach
 
 subdir('src')
 subdir('scripts')
