@@ -116,15 +116,32 @@ Below is a detailed an explanation of what configurations are available in setti
 
 ## Building
 <p>
-To build the PoC code, it is sufficient to run the command <pre>make</pre> in the top-level folder of the project. There is also a debug build, which uses GCC's address, leak and undefined behavior sanitizers for additioinal checks; it is available with <pre>make BUILD=debug</pre>.<br><br>
+The PoC code is build using [meson](mesonbuild.com/):
+```ShellSession
+$ meson build
+$ cd build/
+$ meson compile
+```
 
-There are few compile time flags which can be passed to make to enable some code behaviour:<br>
-* <strong>PRINT_MSGS</strong>, used to print to stdout only the most important messages (this is the only parameter enabled by default)<br>
-* <strong>PRINT_ADV_MSGS</strong>, used for very verbose printing to stdout (useful for debugging purposes)<br>
-* <strong>PRINT_TABLE</strong>, used to print to stdout all data stored in the different tables maintained by the application<br>
-* <strong>APPLY_CHANGES</strong>, it enables the application to actually apply the settings via sysctl/ethtool command<br>
-* <strong>CHECK_INITIAL_SETTINGS</strong>, when enabled it will prevent the application to apply lower settings than the ones already applied on the system at bootstrap<br>
-* <strong>M_THREADS</strong>, when enabled will run training using as many threads as cores are available on the machine
+You can also run debug builds using address or undefined behavior sanitizer:
+```ShellSession
+$ meson build -Db_sanitize=undefined # or -Db_sanitize=address for ASAN
+$ cd build/
+$ meson compile
+```
+
+There are few compile time flags which can be passed to meson to enable some code behaviour:<br>
+* <strong>print_messages</strong>, used to print to stdout only the most important messages (this is the only parameter enabled by default)<br>
+* <strong>print_advanced_messages</strong>, used for very verbose printing to stdout (useful for debugging purposes)<br>
+* <strong>print_table</strong>, used to print to stdout all data stored in the different tables maintained by the application<br>
+* <strong>apply_changes</strong>, it enables the application to actually apply the settings via sysctl/ethtool command<br>
+* <strong>check_initial_settings</strong>, when enabled it will prevent the application to apply lower settings than the ones already applied on the system at bootstrap
+* <strong>m_threads</strong>, when enabled will run training using as many threads as cores are available on the machine
+
+These flags can be enabled by passing them to the meson configure step:
+```ShellSession
+$ meson -Dprint_advanced_messages=true -Dprint_table=true build
+```
 </p>
 
 ## Running
@@ -132,13 +149,13 @@ There are few compile time flags which can be passed to make to enable some code
 The code supports multiple mode of operation:
 
 * Training mode:
-<pre>./phoebe -f ./csv_files/rates_trained_data.csv -m std-training -s settings.json</pre>
+<pre>./build/src/phoebe -f ./csv_files/rates_trained_data.csv -m std-training -s settings.json</pre>
 
 * Live training mode:
-<pre>./phoebe -f ./csv_files/rates_trained_data.csv -m live-training -s settings.json</pre>
+<pre>./build/src/phoebe -f ./csv_files/rates_trained_data.csv -m live-training -s settings.json</pre>
 
 * Inference
-<pre>./phoebe -f ./csv_files/rates_trained_data.csv -i wlan0 -m inference -s settings.json</pre>
+<pre>./build/src/phoebe -f ./csv_files/rates_trained_data.csv -i wlan0 -m inference -s settings.json</pre>
 </p>
 
 ## Feedback / Input / Collaboration
