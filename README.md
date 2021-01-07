@@ -3,66 +3,68 @@
 ![CI](https://github.com/SUSE/phoebe/workflows/CI/badge.svg)
 
 ## Idea
-<p>
+
 Phoeβe (/ˈfiːbi/) wants to add basic artificial intelligence capabilities to the Linux OS.
-</p>
+
 
 ## Architecture
-<p>
-Phoeβe is designed with a plugin architecture in mind, providing an interface for new functionality to be added with ease.<br><br>
-Plugins are loaded at runtime and registered with the main body of execution. The only requirement is to implement the interface dictated by the structure <i>plugin_t</i>. The <strong>network_plugin.c</strong> represents a very good example of how to implement a new plugin for Phoeβe.
-</p>
+
+Phoeβe is designed with a plugin architecture in mind, providing an interface for new functionality to be added with ease.
+
+Plugins are loaded at runtime and registered with the main body of execution. The only requirement is to implement the interface dictated by the structure *plugin_t*. The **network_plugin.c** represents a very good example of how to implement a new plugin for Phoeβe.
+
 
 ## Disclaimer
-<p>
-The mathematical model implemented is a super-basic one, which implements a <i>machine-learning 101</i> approach: 
-<strong>input * weight + bias</strong>. It does not use any fancy techniques and the complexity is close to zero.<br><br>
-The plan is to eventually migrate towards a model created in Tensorflow and exported so to be used by Phoeβe, but 
+
+The mathematical model implemented is a super-basic one, which implements a *machine-learning 101* approach:
+**input * weight + bias**. It does not use any fancy techniques and the complexity is close to zero.
+
+The plan is to eventually migrate towards a model created in Tensorflow and exported so to be used by Phoeβe, but
 we are not there yet.
-</p>
+
 
 ## 10,000 feet view
-<p>
-The code allows for both <strong>training</strong> and <strong>inference:</strong> — all the knobs which can 
-modify the run-time behaviour of the implementation are configurable via the <i>settings.json</i> file,
+
+The code allows for both **training** and **inference:** — all the knobs which can
+modify the run-time behaviour of the implementation are configurable via the *settings.json* file,
 where each parameter is explained in detail.
-</p>
 
-<p>
-For the inference case, when a match is found, then the identified kernel parameters are configured accordingly.<br><br>
-The inference loop runs every N seconds and the value is configurable via the <strong>inference_loop_period</strong>. 
-Depending on how quick we want the system to react to a situation change, then the value given to the 
-<strong>inference_loop_period</strong> will be bigger or smaller.<br><br>
-The code has a dedicated stats collection thread which periodically collects system statistics and populates structures 
-used by the inference loop. The statistics are collected every _N_ seconds, and this value is configurable via the 
-<strong>stats_collection_period</strong>. Depending on the overall network demands, the value of 
-<strong>stats_collection_period</strong> will be bigger or smaller to react slower or quicker to network events.
-</p>
 
-<p>
+For the inference case, when a match is found, then the identified kernel parameters are configured accordingly.
+
+The inference loop runs every N seconds and the value is configurable via the **inference_loop_period**.
+Depending on how quick we want the system to react to a situation change, then the value given to the
+**inference_loop_period** will be bigger or smaller.
+
+The code has a dedicated stats collection thread which periodically collects system statistics and populates structures
+used by the inference loop. The statistics are collected every _N_ seconds, and this value is configurable via the
+**stats_collection_period**. Depending on the overall network demands, the value of
+**stats_collection_period** will be bigger or smaller to react slower or quicker to network events.
+
+
 In case a high traffic rate is seen on the network and a matching entry is found, then the code will not consider
-any lower values for a certain period of time: the value is configurable via the <strong>grace_period</strong> in
-the <i>settings.json</i> file. <br>
-That behaviour has been implemented to avoid causing too much reconfiguration on the system and to prevent
-sudden system reconfiguration due to network spikes.
-</p>
+any lower values for a certain period of time: the value is configurable via the **grace_period** in
+the *settings.json* file.
 
-<p>
-The code also supports few approximation functions, also available via the <i>settings.json</i> file.<br>
-The approximation functions can tune the tolerance value - runtime calculated - to further allow the user for fine 
+That behavior has been implemented to avoid causing too much reconfiguration on the system and to prevent
+sudden system reconfiguration due to network spikes.
+
+The code also supports few approximation functions, also available via the *settings.json* file.
+
+The approximation functions can tune the tolerance value - runtime calculated - to further allow the user for fine
 tuning of the matching criteria. Depending on the approximation function, obviously, the matching criteria could be
 narrower or broader.
-</p>
+
 
 ## Settings
 
 Below is a detailed an explanation of what configurations are available in settings.json, the possible values and what effect they have. (Note that this is not really valid JSON; please remove the lines with double-forward-slashes if you use it.)
 
-```
+```json
 {
     "app_settings": {
-	// path where application is expecting to find plugins to load
-	"plugins_path": "/home/mvarlese/REPOS/ai-poc/bin",
+    // path where application is expecting to find plugins to load
+    "plugins_path": "/home/mvarlese/REPOS/ai-poc/bin",
 
         // max_learning_values: number of values learnt per iteration
         "max_learning_values": 1000,
@@ -117,8 +119,8 @@ Below is a detailed an explanation of what configurations are available in setti
 ```
 
 ## Building
-<p>
-The PoC code is build using <a href="https://mesonbuild.com/">Meson</a>:
+
+The PoC code is build using [Meson](https://mesonbuild.com/):
 
 ```ShellSession
 $ meson build
@@ -134,35 +136,42 @@ $ cd build/
 $ meson compile
 ```
 
-There are few compile-time flags which can be passed to Meson to enable some code behaviour:<br>
-* <strong>print_messages</strong>: used to print to `stdout` only the most important messages (this is the only parameter enabled by default)<br>
-* <strong>print_advanced_messages</strong>: used for very verbose printing to `stdout` (useful for debugging purposes)<br>
-* <strong>print_table</strong>: used to print to `stdout` all data stored in the different tables maintained by the application<br>
-* <strong>apply_changes</strong>: this enables the application to actually apply the settings via `sysctl`/`ethtool` command<br>
-* <strong>check_initial_settings</strong>: when enabled, this will prevent the application from applying lower settings than the ones already applied to the system at bootstrap
-* <strong>m_threads</strong>: when enabled, this will run training using as many threads as available cores on the machine
+There are few compile-time flags which can be passed to Meson to enable some code behaviour:
+
+* **print_messages**: used to print to `stdout` only the most important messages (this is the only parameter enabled by default)
+* **print_advanced_messages**: used for very verbose printing to `stdout` (useful for debugging purposes)
+* **print_table**: used to print to `stdout` all data stored in the different tables maintained by the application
+* **apply_changes**: this enables the application to actually apply the settings via `sysctl`/`ethtool` command
+* **check_initial_settings**: when enabled, this will prevent the application from applying lower settings than the ones already applied to the system at bootstrap
+* **m_threads**: when enabled, this will run training using as many threads as available cores on the machine
 
 These flags can be enabled by passing them to the Meson configure step:
+
 ```ShellSession
 $ meson -Dprint_advanced_messages=true -Dprint_table=true build
 ```
-</p>
+
 
 ## Running
-<p>
 The code supports multiple mode of operation:
 
 * Training mode:
-<pre>./build/src/phoebe -f ./csv_files/rates_trained_data.csv -m std-training -s settings.json</pre>
+
+```ShellSession
+./build/src/phoebe -f ./csv_files/rates_trained_data.csv -m std-training -s settings.json
+```
 
 * Live training mode:
-<pre>./build/src/phoebe -f ./csv_files/rates_trained_data.csv -m live-training -s settings.json</pre>
+
+```ShellSession
+./build/src/phoebe -f ./csv_files/rates_trained_data.csv -m live-training -s settings.json
+```
 
 * Inference
-<pre>./build/src/phoebe -f ./csv_files/rates_trained_data.csv -i wlan0 -m inference -s settings.json</pre>
-</p>
+```ShellSession
+./build/src/phoebe -f ./csv_files/rates_trained_data.csv -i wlan0 -m inference -s settings.json
+```
 
 ## Feedback / Input / Collaboration
-<p>
-If you are curious about the project and want more information, please, do reach out to <a href="mailto:marco.varlese@suse.com">marco.varlese@suse.com</a>, I will be more than happy to talk to you more about this project and what other initiatives are in this area.<br>
-</p>
+
+If you are curious about the project and want more information, please, do reach out to [marco.varlese@suse.com](mailto:marco.varlese@suse.com), I will be more than happy to talk to you more about this project and what other initiatives are in this area.
