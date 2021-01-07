@@ -116,7 +116,8 @@ Below is a detailed an explanation of what configurations are available in setti
 
 ## Building
 <p>
-The PoC code is build using [meson](mesonbuild.com/):
+The PoC code is built using [meson](mesonbuild.com/):	
+
 ```ShellSession
 $ meson build
 $ cd build/
