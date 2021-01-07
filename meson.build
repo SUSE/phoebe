@@ -20,6 +20,10 @@ options = [
   ['m_threads', 'M_THREADS']
 ]
 
+if get_option('b_sanitize') == 'undefined'
+  add_global_arguments('-fno-sanitize-recover', language : 'c')
+endif
+
 foreach opt : options
   if get_option(opt[0])
     add_project_arguments('-D@0@'.format(opt[1]), language : 'c')
