@@ -118,7 +118,8 @@ Below is a detailed an explanation of what configurations are available in setti
 
 ## Building
 <p>
-The PoC code is build using [meson](https://mesonbuild.com/):
+The PoC code is build using <a href="https://mesonbuild.com/">Meson</a>:
+
 ```ShellSession
 $ meson build
 $ cd build/
@@ -126,6 +127,7 @@ $ meson compile
 ```
 
 You can also run debug builds using address or undefined behavior sanitizer:
+
 ```ShellSession
 $ meson build -Db_sanitize=undefined # or -Db_sanitize=address for ASAN
 $ cd build/
