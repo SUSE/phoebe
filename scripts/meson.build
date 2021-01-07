@@ -8,7 +8,7 @@ abi_src = custom_target(
 )
 abi = shared_library(
   '_phoebe.abi3',
-  [abi_src, meson.project_source_root() / 'src' / 'stats.c'] + common_src,
+  abi_src, stat_src, common_src,
   name_prefix : '',
   dependencies : [prog_python.dependency(embed : true), common_dep, nl_nf_3]
 )
