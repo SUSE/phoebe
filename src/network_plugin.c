@@ -24,7 +24,7 @@ static pthread_t cpuStatsThreadId;
 static all_values_t *_all_values;
 static weights_reference_t *_weights;
 static app_settings_t *_network_app_settings;
-static tuning_params_t * _network_settings;
+static tuning_params_t *_network_settings;
 static double _bias;
 
 static stats_input_param_t stats_input_params;
@@ -45,7 +45,8 @@ void applySettings(char *interfaceName, tuning_params_t *parameters,
         return;
     }
 
-    if (_network_settings->net_core_somaxconn > parameters->net_core_somaxconn ||
+    if (_network_settings->net_core_somaxconn >
+            parameters->net_core_somaxconn ||
         _network_settings->net_core_netdev_budget >
             parameters->net_core_netdev_budget ||
         _network_settings->net_core_netdev_max_backlog >
@@ -253,7 +254,7 @@ void networkRunInference() {
 }
 
 void networkInit(char *interfaceName, app_settings_t *network_app_settings,
-                tuning_params_t *network_settings,
+                 tuning_params_t *network_settings,
                  weights_reference_t *weights, all_values_t *all_values,
                  double bias) {
     pthread_mutex_init(&tableWriteLock, NULL);

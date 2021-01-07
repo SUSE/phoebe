@@ -10,8 +10,8 @@ typedef struct plugin_s {
     bool active;
     char name[PLUGIN_NAME_LEN];
     double version;
-    void (*init)(char *, app_settings_t *, tuning_params_t *, weights_reference_t *,
-                 all_values_t *, double);
+    void (*init)(char *, app_settings_t *, tuning_params_t *,
+                 weights_reference_t *, all_values_t *, double);
     void (*inference)();
     void (*training)(char *inputFileName);
     void (*destroy)();

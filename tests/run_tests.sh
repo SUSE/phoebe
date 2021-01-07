@@ -33,4 +33,5 @@ EOF
 cp ${SRC_DIR}/csv_files/rates.csv .
 
 ${BUILD_DIR}/src/phoebe -s settings.json -f rates.csv -m training
-PYTHONPATH=${BUILD_DIR}/scripts/ ${SRC_DIR}/scripts/collect_stats.py lo 1
+# disabled until we solve https://github.com/SUSE/phoebe/issues/2
+# PYTHONPATH=${BUILD_DIR}/scripts/ ${SRC_DIR}/scripts/collect_stats.py lo 1
