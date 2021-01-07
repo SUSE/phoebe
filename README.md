@@ -2,9 +2,26 @@
 
 ![CI](https://github.com/SUSE/phoebe/workflows/CI/badge.svg)
 
+
 ## Idea
 
 Phoeβe (/ˈfiːbi/) wants to add basic artificial intelligence capabilities to the Linux OS.
+
+
+## What problem Phoeβe wants to solve
+
+System-level tuning is a very complex activity, requiring the knowledge and expertise of several (all?) layers composing
+the system itself, how they interact with each other and often it is required to have also a very deep understanding of
+the different layers implementation.
+
+Another big aspect of running systems is dealing with failure. Do not think of it as a machine turning on fire but rather 
+an overloaded system due to misconfiguration which could lead to starvation of the resources available.
+
+In many circumstances, operators are used to deal with telemetry, live charts, alerts, etc. which could help them identify
+the offending machine(s) and act to address the potential issue(s).
+
+However, one question comes to mind: wouldn't be awesome if the machine could auto-tune itself and provide a self-healing 
+capability to the user? Well, if that is enough to trigger your interest then this is what Phoeβe aims to provide.
 
 
 ## Architecture
@@ -63,8 +80,9 @@ Below is a detailed an explanation of what configurations are available in setti
 ```json
 {
     "app_settings": {
-    // path where application is expecting to find plugins to load
-    "plugins_path": "/home/mvarlese/REPOS/ai-poc/bin",
+
+        // path where application is expecting to find plugins to load
+        "plugins_path": "/home/mvarlese/REPOS/ai-poc/bin",
 
         // max_learning_values: number of values learnt per iteration
         "max_learning_values": 1000,
@@ -108,12 +126,14 @@ Below is a detailed an explanation of what configurations are available in setti
         "inference_loop_period": 1
 
     },
+
     "weights":{
         "transfer_rate_weight": 0.8,
         "drop_rate_weight" : 0.1,
         "errors_rate_weight" : 0.05,
         "fifo_errors_rate_weight" : 0.05
     },
+
     "bias": 10
 }
 ```
