@@ -279,25 +279,33 @@ int allocateMemoryBasedOnInputAndMaxLearningValues(
     char sInputBuf[BUFFER_SIZE];
     long lineno = 0L;
 
-    if (pFile == NULL)
+    if (pFile == NULL) {
         return RET_FAIL;
+    }
 
     // load line into static buffer
-    if (fgets(sInputBuf, BUFFER_SIZE - 1, pFile) == NULL)
+    if (fgets(sInputBuf, BUFFER_SIZE - 1, pFile) == NULL) {
         return RET_FAIL;
+    }
 
     while (!feof(pFile)) {
         // load line into static buffer
-        if (fgets(sInputBuf, BUFFER_SIZE - 1, pFile) == NULL)
+        if (fgets(sInputBuf, BUFFER_SIZE - 1, pFile) == NULL) {
             break;
+        }
 
         ++lineno;
     }
 
     reference_values->totalLength = app_settings->max_learning_values + lineno;
     reference_values->validValues = 0;
-    reference_values->parameters = (tuning_params_t *)malloc(
-        sizeof(tuning_params_t) * reference_values->totalLength);
+    reference_values->parameters =
+        calloc(reference_values->totalLength, sizeof(tuning_params_t));
+
+    if (reference_values->parameters == NULL) {
+        perror(strerror(errno));
+        exit(EXIT_FAILURE);
+    }
 
     return lineno;
 }
