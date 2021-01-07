@@ -26,7 +26,7 @@ we are not there yet.
 ## 10,000 feet view
 
 The code allows for both **training** and **inference:** — all the knobs which can
-modify the run-time behaviour of the implementation are configurable via the *settings.json* file,
+modify the run-time behavior of the implementation are configurable via the *settings.json* file,
 where each parameter is explained in detail.
 
 
@@ -136,7 +136,7 @@ $ cd build/
 $ meson compile
 ```
 
-There are few compile-time flags which can be passed to Meson to enable some code behaviour:
+There are few compile-time flags which can be passed to Meson to enable some code behavior:
 
 * **print_messages**: used to print to `stdout` only the most important messages (this is the only parameter enabled by default)
 * **print_advanced_messages**: used for very verbose printing to `stdout` (useful for debugging purposes)
