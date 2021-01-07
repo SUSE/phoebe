@@ -11,17 +11,24 @@ jobs:
       matrix:
         compiler: [gcc, clang]
         buildtype: [debug, debugoptimized, release]
-#        checker: [off, asan, valgrind, ubsan]
+        checker: [off, address, valgrind, undefined]
     container:
       image: opensuse/tumbleweed
 
     steps:
     - uses: actions/checkout@v1
     - name: install dependencies
-      run: zypper --non-interactive in gcc clang make libnetlink-devel libnl3-devel libjson-c-devel meson ethtool python3 python3-devel python3-cffi git
+      run: zypper --non-interactive in gcc clang make libnetlink-devel libnl3-devel libjson-c-devel meson ethtool python3 python3-devel python3-cffi git valgrind
+
+    - name: configure
+      run: meson -Dprint_advanced_messages=true -Dprint_table=true -Dcheck_initial_settings=true -Dbuildtype=${{ matrix.buildtype }} -Db_sanitize=${{ matrix.checker }} build
+      if: ${{ (matrix.checker == 'address') || (matrix.checker == 'undefined') }}
+      env:
+        CC: ${{ matrix.compiler }}
 
     - name: configure
       run: meson -Dprint_advanced_messages=true -Dprint_table=true -Dcheck_initial_settings=true -Dbuildtype=${{ matrix.buildtype }} build
+      if: ${{ (matrix.checker != 'address') && (matrix.checker != 'undefined') }}
       env:
         CC: ${{ matrix.compiler }}
 
@@ -29,9 +36,15 @@ jobs:
       run: meson compile
       working-directory: ./build
 
+    - name: test (with valgrind)
+      run: meson test --wrap=valgrind
+      working-directory: ./build
+      if: ${{ matrix.checker == 'valgrind' }}
+
     - name: test
       run: meson test
       working-directory: ./build
+      if: ${{ matrix.checker != 'valgrind' }}
 
     - name: lint
       run: ninja clang-tidy
@@ -47,5 +60,5 @@ jobs:
       uses: 'actions/upload-artifact@v2'
       if: ${{ always() }}
       with:
-        name: build-dir ${{ matrix.compiler }}-${{ matrix.buildtype }}
+        name: build-dir ${{ matrix.compiler }}-${{ matrix.buildtype }}-${{ matrix.checker }}
         path: ./build

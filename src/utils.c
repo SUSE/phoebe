@@ -226,8 +226,14 @@ extern inline double calcDerivedValue(tuning_params_t *parameters,
         res = calculateDerivedValue(transferRate,
                                     parameters[refIndex].transfer_rate,
                                     referenceValue, epsilon);
-        res = adjustValue(pivot, refIndex, res, pivotPrevValue, pivotNextValue,
-                          epsilon, approx_function);
+        if (res > UINT_MAX || res < 0.) {
+            write_adv_log("value res is out of range for unsigned int: %e\n",
+                          res);
+        }
+        const unsigned int refIndex =
+            res > UINT_MAX ? UINT_MAX : (res < 0 ? 0 : res);
+        res = adjustValue(pivot, refIndex, refIndex, pivotPrevValue,
+                          pivotNextValue, epsilon, approx_function);
     }
     return res;
 }

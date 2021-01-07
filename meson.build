@@ -20,6 +20,16 @@ options = [
   ['m_threads', 'M_THREADS']
 ]
 
+if get_option('b_sanitize') == 'undefined'
+  add_global_arguments('-fno-sanitize-recover', language : 'c')
+endif
+
+if cc.get_id() == 'clang' and (
+  get_option('b_sanitize') == 'undefined' or get_option('b_sanitize') == 'address'
+)
+  add_project_link_arguments('-shared-libasan', language : 'c')
+endif
+
 foreach opt : options
   if get_option(opt[0])
     add_project_arguments('-D@0@'.format(opt[1]), language : 'c')

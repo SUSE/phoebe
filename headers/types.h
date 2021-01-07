@@ -28,7 +28,7 @@ typedef struct app_settings_s {
     unsigned int grace_period;
     double stats_collection_period;
     double inference_loop_period;
-    const char *plugins_path;
+    char plugins_path[MAX_FILENAME_LENGTH];
 } app_settings_t;
 
 #define USEC_IN_SEC 1000000 /* Expressed in microseconds; 1s = 10^6usec */
