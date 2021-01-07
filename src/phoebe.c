@@ -222,7 +222,8 @@ int registerAllPlugins() {
                 }
 
                 networkPlugin = getPluginInstance();
-                networkPlugin->init(interfaceName, &app_settings, &system_settings, &weights,
+                networkPlugin->init(interfaceName, &app_settings,
+                                    &system_settings, &weights,
                                     &reference_values, bias);
 
                 registered_plugin_count++;
