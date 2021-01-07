@@ -12,9 +12,10 @@ else
   env = []
 endif
 
-test(
-  'integration test',
-  test_script,
-  args : [meson.project_source_root(), meson.project_build_root()],
-  env : env
-)
+if meson.version().version_compare('>=0.56.0')
+  args = [meson.project_source_root(), meson.project_build_root()]
+else
+  args = [meson.source_root(), meson.build_root()]
+endif
+
+test('integration test', test_script, args : args, env : env)
