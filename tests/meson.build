@@ -60,3 +60,13 @@ test(
   depends : [abi],
   env : python_env,
 )
+
+cmocka = dependency('cmocka')
+
+unit_tests = executable(
+  'unit_tests',
+  ['unit_tests.c', 'test_filehelper.c'] + common_src,
+  dependencies : [cmocka, common_dep],
+  link_args : ['-Wl,--wrap=feof', '-Wl,--wrap=fgetc']
+)
+test('unit tests', unit_tests, env : env)
