@@ -274,7 +274,8 @@ int readSettingsFromJsonFile(char *settingsFileName, app_settings_t *settings,
 }
 
 int allocateMemoryBasedOnInputAndMaxLearningValues(
-    FILE *pFile, app_settings_t *app_settings, all_values_t *reference_values) {
+    FILE *pFile, const app_settings_t *app_settings,
+    all_values_t *reference_values) {
     char sInputBuf[BUFFER_SIZE];
     long lineno = 0L;
 

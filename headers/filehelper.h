@@ -16,7 +16,8 @@ void loadValues(char *line, long lineno, all_values_t *reference_values);
 void loadValuesFromUnordedFile(char *line, all_values_t *reference_values);
 
 int allocateMemoryBasedOnInputAndMaxLearningValues(
-    FILE *pFile, app_settings_t *app_settings, all_values_t *reference_values);
+    FILE *pFile, const app_settings_t *app_settings,
+    all_values_t *reference_values);
 
 int readSettingsFromJsonFile(char *settingsFileName,
                              app_settings_t *app_settings,
