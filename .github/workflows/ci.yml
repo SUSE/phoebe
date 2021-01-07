@@ -18,7 +18,7 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: install dependencies
-      run: zypper --non-interactive in gcc clang make libnetlink-devel libnl3-devel libjson-c-devel meson ethtool python3 python3-devel python3-cffi
+      run: zypper --non-interactive in gcc clang make libnetlink-devel libnl3-devel libjson-c-devel meson ethtool python3 python3-devel python3-cffi git
 
     - name: configure
       run: meson -Dprint_advanced_messages=true -Dprint_table=true -Dcheck_initial_settings=true -Dbuildtype=${{ matrix.buildtype }} build
