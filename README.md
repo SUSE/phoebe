@@ -1,5 +1,7 @@
 # Phoeβe
 
+![CI](https://github.com/SUSE/phoebe/workflows/CI/badge.svg)
+
 ## Idea
 <p>
 Phoeβe wants to add base artificial intelligence capabilities to the Linux OS.
