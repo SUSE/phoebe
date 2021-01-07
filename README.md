@@ -117,7 +117,8 @@ There are few compile time flags which can be passed to make to enable some code
 * <strong>PRINT_ADV_MSGS</strong>, used for very verbose printing to stdout (useful for debugging purposes)<br>
 * <strong>PRINT_TABLE</strong>, used to print to stdout all data stored in the different tables maintained by the application<br>
 * <strong>APPLY_CHANGES</strong>, it enables the application to actually apply the settings via sysctl/ethtool command<br>
-* <strong>CHECK_INITIAL_SETTINGS</strong>, when enabled it will prevent the application to apply lower settings than the ones already applied on the system at bootstrap
+* <strong>CHECK_INITIAL_SETTINGS</strong>, when enabled it will prevent the application to apply lower settings than the ones already applied on the system at bootstrap<br>
+* <strong>M_THREADS</strong>, when enabled will run training using as many threads as cores are available on the machine
 </p>
 
 ## Running

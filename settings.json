@@ -1,0 +1,20 @@
+{
+    "app_settings": {
+	"plugins_path": "/home/mvarlese/REPOS/ai-poc/bin",
+        "max_learning_values": 500000,
+        "saving_loop": 1000,
+        "accuracy": 1.5,
+        "approx_function": 0,
+        "grace_period": 10,
+        "stats_collection_period": 0.5,
+        "inference_loop_period": 1
+
+    },
+    "weights":{
+        "transfer_rate_weight": 0.8,
+        "drop_rate_weight" : 0.1,
+        "errors_rate_weight" : 0.05,
+        "fifo_errors_rate_weight" : 0.05
+    },
+    "bias": 10
+}
