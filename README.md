@@ -2,28 +2,28 @@
 
 ## Idea
 <p>
-Phoeβe wants to add base artificial intelligence capabilities to the Linux OS.
+Phoeβe (/ˈfiːbi/) wants to add basic artificial intelligence capabilities to the Linux OS.
 </p>
 
 ## Architecture
 <p>
-Phoeβe is designed with a plugin architecture in mind, providing an interface for new functionalities to be added at ease.<br><br>
+Phoeβe is designed with a plugin architecture in mind, providing an interface for new functionality to be added with ease.<br><br>
 Plugins are loaded at runtime and registered with the main body of execution. The only requirement is to implement the interface dictated by the structure <i>plugin_t</i>. The <strong>network_plugin.c</strong> represents a very good example of how to implement a new plugin for Phoeβe.
 </p>
 
 ## Disclaimer
 <p>
-The mathematical model implemented is a super basic one, which contemplates a <i>machine-learning 101</i> approach: 
+The mathematical model implemented is a super-basic one, which implements a <i>machine-learning 101</i> approach: 
 <strong>input * weight + bias</strong>. It does not use any fancy techniques and the complexity is close to zero.<br><br>
-The plan is to eventually migrate towards a model created in Tensorflow and exported so to be used by Phoeβe but 
+The plan is to eventually migrate towards a model created in Tensorflow and exported so to be used by Phoeβe, but 
 we are not there yet.
 </p>
 
 ## 10,000 feet view
 <p>
-The code allows for both <strong>training</strong> and <strong>inference:</strong> all the knobs which can 
+The code allows for both <strong>training</strong> and <strong>inference:</strong> — all the knobs which can 
 modify the run-time behaviour of the implementation are configurable via the <i>settings.json</i> file,
-where each parameter is explained in details.
+where each parameter is explained in detail.
 </p>
 
 <p>
@@ -32,7 +32,7 @@ The inference loop runs every N seconds and the value is configurable via the <s
 Depending on how quick we want the system to react to a situation change, then the value given to the 
 <strong>inference_loop_period</strong> will be bigger or smaller.<br><br>
 The code has a dedicated stats collection thread which periodically collects system statistics and populates structures 
-used by the inference loop. The statistics are collected every N seconds and the value is configurable via the 
+used by the inference loop. The statistics are collected every _N_ seconds, and this value is configurable via the 
 <strong>stats_collection_period</strong>. Depending on the overall network demands, the value of 
 <strong>stats_collection_period</strong> will be bigger or smaller to react slower or quicker to network events.
 </p>
@@ -54,7 +54,7 @@ narrower or broader.
 
 ## Settings
 
-Below is a detailed an explanation of what configurations are available in settings.json, the possible values and what effect they have. (Note that this is not really valid JSON, please remove the lines with double forward slashes if you use it)
+Below is a detailed an explanation of what configurations are available in settings.json, the possible values and what effect they have. (Note that this is not really valid JSON; please remove the lines with double-forward-slashes if you use it.)
 
 ```
 {
@@ -116,7 +116,7 @@ Below is a detailed an explanation of what configurations are available in setti
 
 ## Building
 <p>
-The PoC code is build using [meson](mesonbuild.com/):
+The PoC code is build using [meson](https://mesonbuild.com/):
 ```ShellSession
 $ meson build
 $ cd build/
@@ -130,15 +130,15 @@ $ cd build/
 $ meson compile
 ```
 
-There are few compile time flags which can be passed to meson to enable some code behaviour:<br>
-* <strong>print_messages</strong>, used to print to stdout only the most important messages (this is the only parameter enabled by default)<br>
-* <strong>print_advanced_messages</strong>, used for very verbose printing to stdout (useful for debugging purposes)<br>
-* <strong>print_table</strong>, used to print to stdout all data stored in the different tables maintained by the application<br>
-* <strong>apply_changes</strong>, it enables the application to actually apply the settings via sysctl/ethtool command<br>
-* <strong>check_initial_settings</strong>, when enabled it will prevent the application to apply lower settings than the ones already applied on the system at bootstrap
-* <strong>m_threads</strong>, when enabled will run training using as many threads as cores are available on the machine
+There are few compile-time flags which can be passed to Meson to enable some code behaviour:<br>
+* <strong>print_messages</strong>: used to print to `stdout` only the most important messages (this is the only parameter enabled by default)<br>
+* <strong>print_advanced_messages</strong>: used for very verbose printing to `stdout` (useful for debugging purposes)<br>
+* <strong>print_table</strong>: used to print to `stdout` all data stored in the different tables maintained by the application<br>
+* <strong>apply_changes</strong>: this enables the application to actually apply the settings via `sysctl`/`ethtool` command<br>
+* <strong>check_initial_settings</strong>: when enabled, this will prevent the application from applying lower settings than the ones already applied to the system at bootstrap
+* <strong>m_threads</strong>: when enabled, this will run training using as many threads as available cores on the machine
 
-These flags can be enabled by passing them to the meson configure step:
+These flags can be enabled by passing them to the Meson configure step:
 ```ShellSession
 $ meson -Dprint_advanced_messages=true -Dprint_table=true build
 ```
@@ -160,5 +160,5 @@ The code supports multiple mode of operation:
 
 ## Feedback / Input / Collaboration
 <p>
-If you are curious about the project and want to have more information, please, do reach out to <a href="mailto:marco.varlese@suse.com">marco.varlese@suse.com</a>, I will be more than happy to talk to you more about this project and what others initiatives are in this area.<br>
+If you are curious about the project and want more information, please, do reach out to <a href="mailto:marco.varlese@suse.com">marco.varlese@suse.com</a>, I will be more than happy to talk to you more about this project and what other initiatives are in this area.<br>
 </p>
