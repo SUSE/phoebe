@@ -15,6 +15,15 @@ int loadFile(FILE *pFile, unsigned int fileRows,
 void loadValues(char *line, long lineno, all_values_t *reference_values);
 void loadValuesFromUnordedFile(char *line, all_values_t *reference_values);
 
+/**
+ * @brief Allocates enough memory in reference_values->parameters to hold all
+ *     lines from the file stored in pFile.
+ *
+ * @warning This function calls exit if a call to `malloc(3)` fails.
+ *
+ * @return The number of lines in pFile or @ref RET_FAIL if the file cannot be
+ *     read or no file is open.
+ */
 int allocateMemoryBasedOnInputAndMaxLearningValues(
     FILE *pFile, const app_settings_t *app_settings,
     all_values_t *reference_values);
