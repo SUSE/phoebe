@@ -14,9 +14,6 @@ jobs:
 #        checker: [off, asan, valgrind, ubsan]
     container:
       image: opensuse/tumbleweed
-      options: "--privileged"
-      volumes:
-        - /sys/
 
     steps:
     - uses: actions/checkout@v1
