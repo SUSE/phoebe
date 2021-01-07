@@ -1,0 +1,24 @@
+option(
+  'print_messages', type : 'boolean', value : true,
+  description : 'print the most important messages to stdout'
+)
+option(
+  'print_advanced_messages', type : 'boolean', value : false,
+  description : 'enable very verbose logging'
+)
+option(
+  'print_table', type : 'boolean', value : false,
+  description : 'prints to screen all data stored in the different tables maintained by the application'
+)
+option(
+  'apply_changes', type : 'boolean', value : false,
+  description : 'enable to apply the kernel settings via the sysctl command'
+)
+option(
+  'check_initial_settings', type : 'boolean', value : false,
+  description : 'when enabled, the application will never apply lower settings than the ones already applied on the system at bootstrap'
+)
+option(
+  'm_threads', type : 'boolean', value : false,
+  description : 'when enabled will run training using as many threads as cores are available on the machine'
+)

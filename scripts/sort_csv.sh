@@ -1,6 +1,8 @@
+#!/bin/bash
+
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright SUSE LLC
-#!/bin/bash
+
 # This is a hacked up script that sort the output(s) of collect_stats.py so
 # that
 #   1) The file is sorted by transfer_rate, from smallest to largest

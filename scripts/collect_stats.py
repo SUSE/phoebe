@@ -1,12 +1,14 @@
-#SPDX-License-Identifier: BSD-3-Clause
-#Copyright SUSE LLC
-
 #!/usr/bin/env python3
+
+# SPDX-License-Identifier: BSD-3-Clause
+# Copyright SUSE LLC
+
 import contextlib
 import json
 import sys
 import time
 from os import path
+from pathlib import Path
 
 import cffi
 
@@ -69,7 +71,7 @@ def header_file_content(file_path):
             yield line
 
 def compile_module(output_filename):
-    pwd = path.abspath('.')
+    src_root = Path(__file__).parent.parent.absolute()
     ffibuilder = cffi.FFI()
 
     # libc and libnl
@@ -90,13 +92,13 @@ def compile_module(output_filename):
     #define MAX_INTERFACE_NAME_LENGTH 255
     '''
 
-    for line in header_file_content(path.join(pwd, 'headers/types.h')):
+    for line in header_file_content(path.join(src_root, 'headers', 'types.h')):
         definitions += line
 
-    for line in header_file_content(path.join(pwd, 'headers/stats.h')):
+    for line in header_file_content(path.join(src_root, 'headers', 'stats.h')):
         definitions += line
 
-    for line in header_file_content(path.join(pwd, 'headers/filehelper.h')):
+    for line in header_file_content(path.join(src_root, 'headers', 'filehelper.h')):
         definitions += line
 
     ffibuilder.cdef(definitions)
@@ -114,7 +116,7 @@ def compile_module(output_filename):
         ''',
         # XXX: This mean we cannot move libphoebe.so to another path. We can
         # omit the pwd path, but then we'll need to modify LD_LIBRARY_PATH.
-        extra_objects=[path.join(pwd, 'bin/libphoebe.so')],
+        extra_objects=[path.join(src_root, 'bin/libphoebe.so')],
         include_dirs=['/usr/include/libnl3','./headers/'],
         libraries=['nl-3', 'nl-route-3'],
     )
