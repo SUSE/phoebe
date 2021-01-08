@@ -1,4 +1,4 @@
-prog_python = import('python').find_installation('python3', required : false, modules : ['cffi'])
+prog_python = import('python').find_installation('python3', required : get_option('collector'), modules : ['cffi'])
 
 if prog_python.found()
   abi_src = custom_target(
