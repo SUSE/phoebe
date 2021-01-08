@@ -20,7 +20,7 @@ an overloaded system due to misconfiguration which could lead to starvation of t
 In many circumstances, operators are used to deal with telemetry, live charts, alerts, etc. which could help them identify
 the offending machine(s) and act to address the potential issue(s).
 
-However, one question comes to mind: wouldn't be awesome if the machine could auto-tune itself and provide a self-healing 
+However, one question comes to mind: wouldn't it be awesome if the machine could auto-tune itself and provide a self-healing 
 capability to the user? Well, if that is enough to trigger your interest then this is what Phoeβe aims to provide.
 
 
