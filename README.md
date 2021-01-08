@@ -10,18 +10,22 @@ Phoeβe (/ˈfiːbi/) wants to add basic artificial intelligence capabilities to 
 
 ## What problem Phoeβe wants to solve
 
-System-level tuning is a very complex activity, requiring the knowledge and expertise of several (all?) layers composing
-the system itself, how they interact with each other and often it is required to have also a very deep understanding of
-the different layers implementation.
+System-level tuning is a very complex activity, requiring the knowledge and expertise of several (all?) layers which compose
+the system itself, how they interact with each other and (quite often) it is required to also have an intimate knowledge of
+the implementation of the various layers.
 
-Another big aspect of running systems is dealing with failure. Do not think of it as a machine turning on fire but rather 
-an overloaded system due to misconfiguration which could lead to starvation of the resources available.
+Another big aspect of running systems is dealing with failure. Do not think of failure as a machine turning on fire rather as 
+an overloaded system, caused by misconfiguration, which could lead to starvation of the available resources.
 
-In many circumstances, operators are used to deal with telemetry, live charts, alerts, etc. which could help them identify
-the offending machine(s) and act to address the potential issue(s).
+In many circumstances, operators are used to deal with telemetry, live charts, alerts, etc. which could help them identifying 
+the offending machine(s) and (re)act to fix any potential issues.
 
 However, one question comes to mind: wouldn't it be awesome if the machine could auto-tune itself and provide a self-healing 
 capability to the user? Well, if that is enough to trigger your interest then this is what Phoeβe aims to provide.
+
+Phoeβe uses system telemetry as the input to its <i>brain</i> and produces a big set of settings which get applied to the 
+running system. The decision made by the <i>brain<i> is continuously reevaluated (considering the <i>grace_period</i> setting) 
+to offer eventually the best possible setup.
 
 
 ## Architecture
@@ -140,7 +144,7 @@ Below is a detailed an explanation of what configurations are available in setti
 
 ## Building
 
-The PoC code is build using [Meson](https://mesonbuild.com/):
+The PoC code is built using [Meson](https://mesonbuild.com/):
 
 ```ShellSession
 $ meson build
@@ -192,6 +196,9 @@ The code supports multiple mode of operation:
 ./build/src/phoebe -f ./csv_files/rates_trained_data.csv -i wlan0 -m inference -s settings.json
 ```
 
-## Feedback / Input / Collaboration
 
-If you are curious about the project and want more information, please, do reach out to [marco.varlese@suse.com](mailto:marco.varlese@suse.com), I will be more than happy to talk to you more about this project and what other initiatives are in this area.
+## Feedback / Input / Collaboration
+<p>
+If you are curious about the project and want more information, please, do reach out to [marco.varlese@suse.com](mailto:marco.varlese@suse.com).<br>
+I will be more than happy to talk to you more about this project and what other initiatives are in this area.
+</p>
