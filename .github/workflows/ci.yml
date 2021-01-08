@@ -45,6 +45,26 @@ jobs:
       working-directory: ./build
       if: ${{ matrix.checker != 'valgrind' }}
 
+    - name: upload build directory
+      uses: 'actions/upload-artifact@v2'
+      if: ${{ always() }}
+      with:
+        name: build-dir ${{ matrix.compiler }}-${{ matrix.buildtype }}-${{ matrix.checker }}-${{ matrix.image_repo }}
+        path: ./build
+
+
+  lint:
+    runs-on: ubuntu-latest
+
+    container:
+      image: "registry.opensuse.org/home/dancermak/containers/phoebe:latest"
+
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: configure
+      run: meson -Dprint_advanced_messages=true -Dprint_table=true -Dcheck_initial_settings=true build
+
     - name: lint
       run: ninja clang-tidy
       working-directory: ./build
@@ -54,10 +74,3 @@ jobs:
         ninja clang-format
         git diff --exit-code
       working-directory: ./build
-
-    - name: upload build directory
-      uses: 'actions/upload-artifact@v2'
-      if: ${{ always() }}
-      with:
-        name: build-dir ${{ matrix.compiler }}-${{ matrix.buildtype }}-${{ matrix.checker }}-${{ matrix.image_repo }}
-        path: ./build
