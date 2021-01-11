@@ -52,7 +52,7 @@ void _repositionElements(all_values_t *destParams, int pivot) {
 }
 
 extern inline void retrieveNumberOfCores(unsigned int *threads) {
-    *threads = (unsigned int) sysconf(_SC_NPROCESSORS_CONF);
+    *threads = (unsigned int)sysconf(_SC_NPROCESSORS_CONF);
 }
 
 extern inline unsigned short digits(unsigned long int num) {
