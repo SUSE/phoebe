@@ -24,7 +24,7 @@ However, one question comes to mind: wouldn't it be awesome if the machine could
 capability to the user? Well, if that is enough to trigger your interest then this is what Phoeβe aims to provide.
 
 Phoeβe uses system telemetry as the input to its <i>brain</i> and produces a big set of settings which get applied to the 
-running system. The decision made by the <i>brain<i> is continuously reevaluated (considering the <i>grace_period</i> setting) 
+running system. The decision made by the <i>brain</i> is continuously reevaluated (considering the <i>grace_period</i> setting) 
 to offer eventually the best possible setup.
 
 
