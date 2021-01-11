@@ -1,6 +1,6 @@
 {
     "app_settings": {
-	"plugins_path": "/home/mvarlese/REPOS/ai-poc/bin",
+	"plugins_path": "/home/mvarlese/REPOS/phoebe/build/src",
         "max_learning_values": 500000,
         "saving_loop": 1000,
         "accuracy": 1.5,

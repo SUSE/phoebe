@@ -43,7 +43,7 @@ double calculateEpsilon(double weightedValue, double accuracy);
 double calculateTolerance(double weightedValue, double eps,
                           unsigned int approx_function);
 
-void retrieveNumberOfCores(unsigned int *cores, unsigned int *threads);
+void retrieveNumberOfCores(unsigned int *threads);
 
 void printTable(all_values_t *values);
 
