@@ -184,15 +184,7 @@ def collect_stats(
     nproc = phoebe.get_nprocs()
     row.cores = nproc
 
-    # TODO: what if other CPUs use different governor
-    with open(SYSFS_CPU_PATH + 'cpu0/cpufreq/scaling_governor') as f:
-        cpu_governor = f.read().strip()
-    row.governor = phoebe.cpuGovernorIndex(cpu_governor.encode('ascii'))
-
-    # TODO: what if other CPUs has different frequency
-    with open(SYSFS_CPU_PATH + 'cpu0/cpufreq/scaling_cur_freq') as f:
-        cpu_freq = int(f.read().strip())
-    row.cpu_speed = cpu_freq
+    # TODO: bring back reading of scaling_governor and scaling_cur_freq
 
     phoebe.readCpuStats(cpu_stats_ptr)
     busy_percentage = phoebe.calculateCpuBusyPercentage(prev_cpu_stats_ptr, cpu_stats_ptr)
