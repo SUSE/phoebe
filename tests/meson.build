@@ -53,11 +53,10 @@ test(
   args : ['-s', 'settings.json', '-f', 'rates.csv', '-m', 'training'],
   env : env,
 )
-# disabled until we solve https://github.com/SUSE/phoebe/issues/2
-#test(
-#  'integration test (collector)',
-#  collector_script,
-#  args : ['lo', '1'],
-#  depends : [abi],
-#  env : python_env,
-#)
+test(
+  'integration test (collector)',
+  collector_script,
+  args : ['lo', '1'],
+  depends : [abi],
+  env : python_env,
+)
