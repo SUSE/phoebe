@@ -180,15 +180,8 @@ $ meson -Dprint_advanced_messages=true -Dprint_table=true build
 The code supports multiple mode of operation:
 
 * Training mode:
-
 ```ShellSession
-./build/src/phoebe -f ./csv_files/rates_trained_data.csv -m std-training -s settings.json
-```
-
-* Live training mode:
-
-```ShellSession
-./build/src/phoebe -f ./csv_files/rates_trained_data.csv -m live-training -s settings.json
+./build/src/phoebe -f ./csv_files/rates_trained_data.csv -m training -s settings.json
 ```
 
 * Inference
