@@ -6,10 +6,26 @@ setup_script = find_program(meson.current_source_dir() / 'setup.sh')
 # it to be
 if cc.get_id() == 'clang'
   base_path = '/usr' / get_option('libdir') / 'clang' / cc.version() / 'lib/linux/'
-  libclang_rt = cc.find_library(base_path / 'libclang_rt.asan-@0@'.format(build_machine.cpu_family()))
   env = ['LD_LIBRARY_PATH=@0@'.format(base_path)]
 else
   env = []
+endif
+
+# ASAN requies its runtime to be loaded first, which is a problem when we run
+# collect_stats.py since the Python executable that comes with the distro won't
+# do that. So we find the ASAN runtime manually here and add it to LD_PRELOAD
+# later.
+if not get_option('b_sanitize').contains('address')
+  libasan = ''
+elif cc.get_id() == 'clang'
+  libasan = run_command(
+    cc,
+    '-print-file-name=libclang_rt.asan-@0@.so'.format(build_machine.cpu_family()),
+  ).stdout().strip()
+elif cc.get_id() == 'gcc'
+  libasan = run_command(cc, '-print-file-name=libasan.so').stdout().strip()
+else
+  error('Unsupported compiler to use with address sanitizer')
 endif
 
 if meson.version().version_compare('>=0.56.0')
@@ -17,6 +33,12 @@ if meson.version().version_compare('>=0.56.0')
 else
   args = [meson.source_root(), meson.build_root()]
 endif
+
+python_env = env + [
+  'PYTHONPATH=@0@'.format(args[1] / 'scripts'),
+  'LD_PRELOAD=@0@'.format(libasan),
+  'ASAN_OPTIONS=detect_leaks=0',
+]
 
 test(
   'integration test setup',
@@ -37,5 +59,5 @@ test(
 #  collector_script,
 #  args : ['lo', '1'],
 #  depends : [abi],
-#  env : env,
+#  env : python_env,
 #)
