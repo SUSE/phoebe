@@ -1,4 +1,4 @@
-test_script = find_program(meson.current_source_dir() / 'run_tests.sh')
+setup_script = find_program(meson.current_source_dir() / 'setup.sh')
 
 # When building with clang we use -shared-libasan, but clang's shared ASAS/UBSAN
 # is not in the default library search path. Thus we must add it manually to
@@ -18,4 +18,24 @@ else
   args = [meson.source_root(), meson.build_root()]
 endif
 
-test('integration test', test_script, args : args, env : env)
+test(
+  'integration test setup',
+  setup_script,
+  args : args,
+  priority : 1000,
+  is_parallel : false
+)
+test(
+  'integration test (main)',
+  phoebe,
+  args : ['-s', 'settings.json', '-f', 'rates.csv', '-m', 'training'],
+  env : env,
+)
+# disabled until we solve https://github.com/SUSE/phoebe/issues/2
+#test(
+#  'integration test (collector)',
+#  collector_script,
+#  args : ['lo', '1'],
+#  depends : [abi],
+#  env : env,
+#)
