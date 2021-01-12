@@ -199,6 +199,6 @@ The code supports multiple mode of operation:
 
 ## Feedback / Input / Collaboration
 <p>
-If you are curious about the project and want more information, please, do reach out to [marco.varlese@suse.com](mailto:marco.varlese@suse.com).<br>
+If you are curious about the project and want more information, please, do reach out to <a href="mailto:marco.varlese@suse.com">marco.varlese@suse.com</a>.<br>
 I will be more than happy to talk to you more about this project and what other initiatives are in this area.
 </p>
