@@ -29,6 +29,8 @@ Please, use the Issues feature for any work happening on the code.
 ## Create pull request
 * Creat a branch for your PR: _git checkout -b <proposal>_
 * Develop your code.
+* Ensure your code adheres to the coding standards: run _meson --internal clangformat $PATH_TO_LOCAL_REPO/phoebe $PATH_TO_LOCAL_REPO/phoebe/build_
+* Ensure the code builds successfully on your machine
 * Push to your repo: _git push origin <proposal>_
 * In your repo, choose <proposal> branch, then create pull request.
 * Fill the pull request template and click "Create".
