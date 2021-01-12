@@ -81,7 +81,7 @@ narrower or broader.
 
 Below is a detailed an explanation of what configurations are available in settings.json, the possible values and what effect they have. (Note that this is not really valid JSON; please remove the lines with double-forward-slashes if you use it.)
 
-```json
+```jsonc
 {
     "app_settings": {
 
