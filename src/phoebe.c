@@ -191,7 +191,7 @@ int registerAllPlugins() {
     void *handle;
     char *error;
 
-    char resolved_path[MAX_FILENAME_LENGTH * 2];
+    char resolved_path[MAX_FILENAME_LENGTH * 2 + 1];
     DIR *d;
     struct dirent *dir;
 
