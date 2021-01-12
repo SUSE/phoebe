@@ -22,3 +22,7 @@ option(
   'm_threads', type : 'boolean', value : false,
   description : 'when enabled will run training using as many threads as cores are available on the machine'
 )
+option(
+  'collector', type : 'feature', value : 'auto',
+  description : 'when enabled will build library requires for collect_stats.py, which is used to collect system metrics to train the AI model'
+)

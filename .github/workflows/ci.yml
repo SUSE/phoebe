@@ -20,13 +20,13 @@ jobs:
     - uses: actions/checkout@v1
 
     - name: configure
-      run: meson -Dprint_advanced_messages=true -Dprint_table=true -Dcheck_initial_settings=true -Dbuildtype=${{ matrix.buildtype }} -Db_sanitize=${{ matrix.checker }} build
+      run: meson -Dprint_advanced_messages=true -Dprint_table=true -Dcheck_initial_settings=true -Dcollector=enabled -Dbuildtype=${{ matrix.buildtype }} -Db_sanitize=${{ matrix.checker }} build
       if: ${{ (matrix.checker == 'address') || (matrix.checker == 'undefined') }}
       env:
         CC: ${{ matrix.compiler }}
 
     - name: configure
-      run: meson -Dprint_advanced_messages=true -Dprint_table=true -Dcheck_initial_settings=true -Dbuildtype=${{ matrix.buildtype }} build
+      run: meson -Dprint_advanced_messages=true -Dprint_table=true -Dcheck_initial_settings=true -Dcollector=enabled -Dbuildtype=${{ matrix.buildtype }} build
       if: ${{ (matrix.checker != 'address') && (matrix.checker != 'undefined') }}
       env:
         CC: ${{ matrix.compiler }}
