@@ -4,10 +4,11 @@ prog_python = import('python').find_installation(
   modules : ['cffi'],
   disabler : true,
 )
+collector_script = files('collect_stats.py')
 
 abi_src = custom_target(
   '_phoebe.c',
-  input : ['collect_stats.py'],
+  input : [collector_script],
   output : ['_phoebe.c'],
   command : [prog_python, '@INPUT@', 'generate', '@OUTPUT@'],
 )
