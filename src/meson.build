@@ -10,12 +10,16 @@ plugins = [
   shared_library(
     'network_plugin',
     ['network_plugin.c', 'stats.c', 'algorithmic.c'], common_src,
-    dependencies : [nl_nf_3, common_dep]
+    dependencies : [nl_nf_3, common_dep],
+    install : true,
+    install_dir : get_option('libdir') / meson.project_name()
   )
 ]
 
 phoebe = executable(
   'phoebe',
   'phoebe.c', common_src,
-  dependencies : common_dep
+  dependencies : common_dep,
+  install : true,
+  install_dir : get_option('bindir')
 )

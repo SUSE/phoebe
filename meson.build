@@ -39,3 +39,4 @@ endforeach
 subdir('src')
 subdir('scripts')
 subdir('tests')
+subdir('csv_files')
