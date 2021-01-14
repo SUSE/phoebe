@@ -105,7 +105,7 @@ int handleCommandLineArguments(int argc, char **argv) {
             {"csvfile", required_argument, 0, 'f'},
             {"interface", required_argument, 0, 'i'},
             {"mode", required_argument, 0, 'm'},
-            {"settings", required_argument, 0, 's'},
+            {"settings", optional_argument, 0, 's'},
             {0, 0, 0, 0}};
         /* getopt_long stores the option index here. */
         int option_index = 0;
@@ -150,7 +150,8 @@ int handleCommandLineArguments(int argc, char **argv) {
 
         case 's': {
             memset(settingsFileName, 0, MAX_FILENAME_LENGTH);
-            memcpy(settingsFileName, optarg, strlen(optarg));
+            if (optarg != NULL)
+                memcpy(settingsFileName, optarg, strlen(optarg));
         } break;
 
         case '?':
@@ -253,7 +254,11 @@ int main(int argc, char **argv) {
     n_threads = 1;
 #endif
 
-    write_log("Loading file (%s)...", WEIGHTS_JSON_FILE);
+    if (strncmp(settingsFileName, "0", strlen(settingsFileName)) == 0)
+        snprintf(settingsFileName, MAX_FILENAME_LENGTH, "%s",
+                 SETTINGS_DEFAULT_PATH);
+
+    write_log("Loading file (%s)...", settingsFileName);
     fflush(stdout);
     if (readSettingsFromJsonFile(settingsFileName, &app_settings, &weights,
                                  &bias) == RET_FAIL)

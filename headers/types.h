@@ -184,6 +184,6 @@ typedef struct if_offloads_s {
 
 #define APPEND_TO_FILE_NAME "trained_data.csv"
 
-#define WEIGHTS_JSON_FILE "settings.json"
+#define SETTINGS_DEFAULT_PATH "/etc/phoebe/settings.json"
 
 #endif
