@@ -15,11 +15,11 @@ option(
   description : 'enable to apply the kernel settings via the sysctl command'
 )
 option(
-  'check_initial_settings', type : 'boolean', value : false,
+  'check_initial_settings', type : 'boolean', value : true,
   description : 'when enabled, the application will never apply lower settings than the ones already applied on the system at bootstrap'
 )
 option(
-  'm_threads', type : 'boolean', value : false,
+  'm_threads', type : 'boolean', value : true,
   description : 'when enabled will run training using as many threads as cores are available on the machine'
 )
 option(
