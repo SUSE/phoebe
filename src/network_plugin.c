@@ -146,9 +146,63 @@ static inline void networkPrintReport() {
     write_log("\033[0m"); // Resets the text to default color
 }
 
+void networkLiveTraining(char *inputFileName)
+{
+    int origTableIndex = 0;
+    while (_all_values->validValues < _all_values->totalLength) {
+        unsigned long transferRate = getTransferRate();
+        uint64_t dropRate = getDropRate();
+        uint64_t errorsRate = getErrorsRate();
+        uint64_t fifoErrorsRate = getFifoErrorsRate();
+
+        if (transferRate == 0 && dropRate == 0 && errorsRate == 0 &&
+            fifoErrorsRate == 0)
+            continue;
+
+        double weightedValue = calculateWeightedValue(transferRate, dropRate, errorsRate,
+                fifoErrorsRate, _weights, _bias);
+        unsigned short zeros =
+            digits(weightedValue) * _network_app_settings->accuracy;
+        double epsilon = 
+            calculateEpsilon(zeros, _network_app_settings->accuracy);
+        double toleranceValue = calculateTolerance(
+            weightedValue, epsilon, _network_app_settings->approx_function);
+
+        unsigned int closestIndex = 0;
+        if ((origTableIndex = binarySearchWithTolerance(
+                 _all_values->parameters, 0, _all_values->validValues,
+                 weightedValue, toleranceValue, &closestIndex, _weights,
+                 _bias)) != -1) {
+
+            if (addData(_all_values, origTableIndex, transferRate, epsilon,
+                        TRUE) == RET_FAIL)
+                write_adv_log("Duplicate value (%ld) not being inserted into "
+                              "the table.\n",
+                              transferRate);
+
+            if (_all_values->validValues %
+                    _network_app_settings->saving_loop ==
+                0)
+                saveTrainedDataToFile(_all_values, inputFileName);
+                
+        } else {
+            write_adv_log("Could not find a match for value %ld; the closest "
+                          "transfer rate "
+                          "value at index %u is %ld. Actual delta = %ld where "
+                          "tolerance is = %lf\n",
+                          transferRate, closestIndex,
+                          _all_values->parameters[closestIndex].transfer_rate,
+                          _all_values->parameters[closestIndex].transfer_rate -
+                              transferRate,
+                          toleranceValue);
+        }
+        usleep(USEC_IN_SEC * _network_app_settings->inference_loop_period);
+    }
+}
+
 void networkRunInference() {
 
-    unsigned int i = 0;
+    int i = 0;
     double prevWeightedValue = 0L;
     unsigned long timePassedSinceLastChanges = 0;
     unsigned short printAdviseMsg = 0;
@@ -347,6 +401,7 @@ plugin_t me = {.active = TRUE,
                .destroy = networkDestroy,
                .inference = networkRunInference,
                .training = networkRunTraining,
+               .livetraining = networkLiveTraining,
                .print_report = networkPrintReport};
 
 plugin_t *registerMe() {

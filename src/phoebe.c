@@ -37,7 +37,7 @@
 char inputFileName[MAX_FILENAME_LENGTH];
 char settingsFileName[MAX_FILENAME_LENGTH];
 
-static unsigned int fileRows = 0L;
+static int fileRows = 0;
 
 static all_values_t reference_values;
 static weights_reference_t weights;
@@ -50,21 +50,26 @@ static char interfaceName[MAX_INTERFACE_NAME_LENGTH];
 
 static plugin_t *networkPlugin;
 
-void *runStdTraining(void *arg) {
+void *runStdTraining(void *arg __attribute__((unused))) {
     networkPlugin->training(inputFileName);
 
     return NULL;
 }
 
+void runLiveTraining() 
+{
+    networkPlugin->livetraining(inputFileName);
+}
+
 void runInference() { networkPlugin->inference(); }
 
-void handleSigint(int sig) {
+void handleSigint(int sig __attribute__((unused))) {
     networkPlugin->print_report();
     free(reference_values.parameters);
     fflush(stdout);
 }
 
-void handleSighup(int sig) {
+void handleSighup(int sig __attribute__((unused))) {
     app_settings_t tmpAppSettings;
     weights_reference_t tmpWeights;
     double tmpBias;
@@ -81,7 +86,7 @@ void printHelp(char *argv0) {
     printf("Usage: %s [options]\n\n", argv0);
     printf("\t-f, --csvfile\t\tinput-file path\n");
     printf("\t-i, --interface\t\tinterface to monitor\n");
-    printf("\t-m, --mode\t\ttraining | inference\n");
+    printf("\t-m, --mode\t\ttraining | live-training | inference\n");
     printf("\t-s, --settings\t\tJSON file for app-settings\n");
     printf("\t-?\t\t\tprints this help and exit\n");
     printf("\n\n");
@@ -136,8 +141,8 @@ int handleCommandLineArguments(int argc, char **argv) {
             memcpy(operationalMode, optarg, strlen(optarg));
 
             if (strncmp(operationalMode, "training", strlen("training")) != 0 &&
-                strncmp(operationalMode, "inference", strlen("inference")) !=
-                    0) {
+                strncmp(operationalMode, "live-training", strlen("live-training")) != 0 &&
+                strncmp(operationalMode, "inference", strlen("inference")) != 0) {
                 printHelp(argv[0]);
                 return RET_FAIL;
             }
@@ -314,6 +319,25 @@ int main(int argc, char **argv) {
 
         for (unsigned int i = 0; i < n_threads; i++)
             pthread_join(threads[i], NULL);
+
+        printf("DONE.\n");
+
+        // printTable(&allValues);
+
+        printf("Final table length: %d\n", reference_values.validValues);
+
+        unsigned int totalFileEntries =
+            saveTrainedDataToFile(&reference_values, inputFileName);
+
+        printf("Total entries in file: %d\n", totalFileEntries);
+
+    } else if (strncmp(operationalMode, "live-training", strlen("live-training")) == 0) {
+
+        srand(time(NULL));
+
+        printf("Augmenting data...\n");
+
+        runLiveTraining(inputFileName);
 
         printf("DONE.\n");
 
