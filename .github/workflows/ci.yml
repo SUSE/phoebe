@@ -45,6 +45,18 @@ jobs:
       working-directory: ./build
       if: ${{ matrix.checker != 'valgrind' }}
 
+    - name: install
+      run: |
+        set -euox pipefail
+        mkdir destdir
+        DESTDIR=./destdir meson install
+        [ -e destdir/usr/local/etc/phoebe/settings.json ]
+        [ -e destdir/usr/local/share/phoebe/rates.csv ]
+        [ -e destdir/usr/local/bin/phoebe ]
+        [ -e destdir/usr/local/lib64/phoebe/libnetwork_plugin.so ]
+      working-directory: ./build
+      if: ${{ matrix.checker == 'off' }}
+
     - name: upload build directory
       uses: 'actions/upload-artifact@v2'
       if: ${{ always() }}
