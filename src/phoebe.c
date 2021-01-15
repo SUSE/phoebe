@@ -56,10 +56,7 @@ void *runStdTraining(void *arg __attribute__((unused))) {
     return NULL;
 }
 
-void runLiveTraining() 
-{
-    networkPlugin->livetraining(inputFileName);
-}
+void runLiveTraining() { networkPlugin->livetraining(inputFileName); }
 
 void runInference() { networkPlugin->inference(); }
 
@@ -141,8 +138,10 @@ int handleCommandLineArguments(int argc, char **argv) {
             memcpy(operationalMode, optarg, strlen(optarg));
 
             if (strncmp(operationalMode, "training", strlen("training")) != 0 &&
-                strncmp(operationalMode, "live-training", strlen("live-training")) != 0 &&
-                strncmp(operationalMode, "inference", strlen("inference")) != 0) {
+                strncmp(operationalMode, "live-training",
+                        strlen("live-training")) != 0 &&
+                strncmp(operationalMode, "inference", strlen("inference")) !=
+                    0) {
                 printHelp(argv[0]);
                 return RET_FAIL;
             }
@@ -331,7 +330,8 @@ int main(int argc, char **argv) {
 
         printf("Total entries in file: %d\n", totalFileEntries);
 
-    } else if (strncmp(operationalMode, "live-training", strlen("live-training")) == 0) {
+    } else if (strncmp(operationalMode, "live-training",
+                       strlen("live-training")) == 0) {
 
         srand(time(NULL));
 

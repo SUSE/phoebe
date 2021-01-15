@@ -146,8 +146,7 @@ static inline void networkPrintReport() {
     write_log("\033[0m"); // Resets the text to default color
 }
 
-void networkLiveTraining(char *inputFileName)
-{
+void networkLiveTraining(char *inputFileName) {
     int origTableIndex = 0;
     while (_all_values->validValues < _all_values->totalLength) {
         unsigned long transferRate = getTransferRate();
@@ -159,11 +158,12 @@ void networkLiveTraining(char *inputFileName)
             fifoErrorsRate == 0)
             continue;
 
-        double weightedValue = calculateWeightedValue(transferRate, dropRate, errorsRate,
-                fifoErrorsRate, _weights, _bias);
+        double weightedValue =
+            calculateWeightedValue(transferRate, dropRate, errorsRate,
+                                   fifoErrorsRate, _weights, _bias);
         unsigned short zeros =
             digits(weightedValue) * _network_app_settings->accuracy;
-        double epsilon = 
+        double epsilon =
             calculateEpsilon(zeros, _network_app_settings->accuracy);
         double toleranceValue = calculateTolerance(
             weightedValue, epsilon, _network_app_settings->approx_function);
@@ -180,11 +180,10 @@ void networkLiveTraining(char *inputFileName)
                               "the table.\n",
                               transferRate);
 
-            if (_all_values->validValues %
-                    _network_app_settings->saving_loop ==
+            if (_all_values->validValues % _network_app_settings->saving_loop ==
                 0)
                 saveTrainedDataToFile(_all_values, inputFileName);
-                
+
         } else {
             write_adv_log("Could not find a match for value %ld; the closest "
                           "transfer rate "
