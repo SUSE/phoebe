@@ -1,4 +1,4 @@
-project('Phoeβe', 'c', default_options : ['c_std=gnu99', 'warning_level=2'])
+project('phoebe', 'c', default_options : ['c_std=gnu99', 'warning_level=2'])
 
 incdir = include_directories('headers')
 
