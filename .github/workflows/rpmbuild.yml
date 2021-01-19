@@ -1,0 +1,62 @@
+name: Build RPMs
+
+on: [push, pull_request]
+
+jobs:
+  build_srpm:
+    runs-on: ubuntu-latest
+    container:
+      image: "fedora:latest"
+      options: --privileged
+
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: install mock
+      run: dnf --setopt=install_weak_deps=False install -y mock git
+
+    - name: build source RPM
+      run: |
+        export VERSION=0.1
+        git archive --format=tar.gz --output=phoebe-${VERSION}.tar.gz --prefix=phoebe-${VERSION}/ HEAD
+        mock -r /etc/mock/opensuse-tumbleweed-x86_64.cfg \
+            --isolation=simple --buildsrpm \
+            --sources=phoebe-${VERSION}.tar.gz \
+            --spec=dist/rpm/phoebe.spec --resultdir=srpm_res
+
+    - name: upload source rpm
+      uses: 'actions/upload-artifact@v2'
+      with:
+        name: srpm_res
+        path: ./srpm_res
+
+  build_rpm:
+    runs-on: ubuntu-latest
+    needs: build_srpm
+    container:
+      image: "fedora:latest"
+      options: --privileged
+
+    strategy:
+      fail-fast: false
+      matrix:
+        target: ["opensuse-leap-15.2", "opensuse-tumbleweed"]
+
+    steps:
+    - uses: actions/checkout@v1
+
+    - uses: actions/download-artifact@v2
+      with:
+        name: srpm_res
+
+    - name: install mock
+      run: dnf --setopt=install_weak_deps=False install -y mock
+
+    - name: build rpm
+      run: mock -r /etc/mock/${{ matrix.target }}-x86_64.cfg --isolation=simple --resultdir=rpms/ *.src.rpm
+
+    - name: upload rpm
+      uses: 'actions/upload-artifact@v2'
+      with:
+        name: phoebe-${{ matrix.target }}.x86_64.rpm
+        path: ./rpms/*.x86_64.rpm
