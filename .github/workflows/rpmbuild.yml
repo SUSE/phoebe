@@ -58,5 +58,5 @@ jobs:
     - name: upload rpm
       uses: 'actions/upload-artifact@v2'
       with:
-        name: phoebe-${{ matrix.target }}.x86_64.rpm
+        name: phoebe-${{ matrix.target }}.x86_64.rpm.zip
         path: ./rpms/*.x86_64.rpm
