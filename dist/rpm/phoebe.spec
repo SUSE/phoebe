@@ -15,21 +15,21 @@
 # Please submit bugfixes or comments via https://bugs.opensuse.org/
 #
 
+
 Name:           phoebe
-Version:        0.0.4
-Release:        0.3
+Version:        0.1
+Release:        0
 Summary:        Phoeβe wants to add basic artificial intelligence capabilities to the Linux OS
 License:        BSD-3-Clause
-URL:            https://github.com/SUSE/phoebe
-Source:         phoebe-%version.tar.xz
-BuildRequires:  meson
-BuildRequires:  ninja
-BuildRequires:  python3-devel
-BuildRequires:  python3-cffi
-BuildRequires:  python3-pycparser
+URL:            https://github.com/SUSE/%{name}
+Source:         %{URL}/archive/v%{version}.tar.gz#/%{name}-%{version}.tar.gz
 BuildRequires:  libjson-c-devel
 BuildRequires:  libnl3-devel
-Group:          System/Benchmark
+BuildRequires:  meson
+BuildRequires:  ninja
+BuildRequires:  python3-cffi
+BuildRequires:  python3-devel
+BuildRequires:  python3-pycparser
 
 %description
 
@@ -46,29 +46,26 @@ Phoeβe uses system telemetry as the input to its brain and produces a big set o
 to offer eventually the best possible setup.
 
 %prep
-%setup -q
-meson build
+%autosetup -p1
 
 %build
-cd build
-meson compile
+# export build flags manually if %%set_build_flags is not defined
+%{?!set_build_flags:export CFLAGS="%{optflags}"; export LDFLAGS="${RPM_LD_FLAGS}"}
+%meson
+%meson_build
 
 %install
-mkdir -p /${RPM_BUILD_ROOT}/%{_bindir}
-mkdir -p /${RPM_BUILD_ROOT}/%{_libdir}/phoebe
-mkdir -p /${RPM_BUILD_ROOT}/%{_sysconfdir}/phoebe
-mkdir -p /${RPM_BUILD_ROOT}/%{_datadir}/phoebe
-install -m 755 build/src/phoebe                 /${RPM_BUILD_ROOT}/%{_bindir}
-install -m 644 build/src/libnetwork_plugin.so   /${RPM_BUILD_ROOT}/%{_libdir}/phoebe
-install -m 644 settings.json                    /${RPM_BUILD_ROOT}/%{_sysconfdir}/phoebe/settings.json
-install -m 644 csv_files/rates.csv              /${RPM_BUILD_ROOT}/%{_datadir}/phoebe/rates.csv
+%meson_install
 
 %files
 %license LICENSE
-%doc OWNERS README.md CONTRIBUTING.md SETUP.md
-%{_bindir}/phoebe
-%{_libdir}/phoebe/
-%{_datadir}/phoebe/
-%{_sysconfdir}/phoebe/
+%doc README.md SETUP.md
+%{_bindir}/%{name}
+%dir %{_libdir}/%{name}
+%dir %{_datadir}/%{name}
+%dir %{_sysconfdir}/%{name}
+%{_libdir}/%{name}/libnetwork_plugin.so
+%{_datadir}/%{name}/rates.csv
+%config(noreplace) %{_sysconfdir}/%{name}/settings.json
 
 %changelog
