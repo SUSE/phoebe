@@ -23,10 +23,11 @@ Summary:        Phoeβe wants to add basic artificial intelligence capabilities 
 License:        BSD-3-Clause
 URL:            https://github.com/SUSE/%{name}
 Source:         %{URL}/archive/v%{version}.tar.gz#/%{name}-%{version}.tar.gz
-BuildRequires:  libjson-c-devel
-BuildRequires:  libnl3-devel
+BuildRequires:  pkgconfig(json-c)
+BuildRequires:  pkgconfig(libnl-3.0)
+BuildRequires:  pkgconfig(libnl-nf-3.0)
 BuildRequires:  meson
-BuildRequires:  ninja
+BuildRequires:  gcc
 BuildRequires:  python3-cffi
 BuildRequires:  python3-devel
 BuildRequires:  python3-pycparser
