@@ -128,7 +128,7 @@ void applySettings(char *interfaceName, tuning_params_t *parameters,
     write_log("$ %s\n", netIPCommand);
     write_log("$ %s\n", ringSizeCommand);
     write_log("$ %s\n", offloadCommand);
-#ifdef APPLY_SETTINGS
+#ifdef APPLY_CHANGES
     system(netCoreCommand);
     system(netIPCommand);
     system(ringSizeCommand);
