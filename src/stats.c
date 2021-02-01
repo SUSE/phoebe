@@ -87,7 +87,7 @@ inline void readCpuStats(cpu_stats_t *stats) {
 }
 
 inline int cpuGovernorIndex(const char *query) {
-    for (int i = 0; i < sizeof(GOVERNORS); i++) {
+    for (unsigned long i = 0; i < sizeof(GOVERNORS); i++) {
         const char *governor = GOVERNORS[i];
         if (strcmp(query, governor) == 0)
             // Begin from 1

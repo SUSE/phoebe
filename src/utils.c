@@ -40,7 +40,7 @@ int _positionToInserElementAt(unsigned long transferRate,
     return RET_OK;
 }
 
-void _repositionElements(all_values_t *destParams, int pivot) {
+void _repositionElements(all_values_t *destParams, unsigned int pivot) {
 
     assert(pivot < destParams->totalLength);
 

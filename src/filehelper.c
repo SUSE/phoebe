@@ -204,7 +204,7 @@ int readSettingsFromJsonFile(char *settingsFileName, app_settings_t *settings,
         json_object_get_double(inference_loop_period);
 
     assert(sizeof(settings->plugins_path) >
-           json_object_get_string_len(plugins_path));
+           (long unsigned int)json_object_get_string_len(plugins_path));
     memcpy(settings->plugins_path, json_object_get_string(plugins_path),
            json_object_get_string_len(plugins_path) + 1);
 
@@ -265,7 +265,7 @@ int readSettingsFromJsonFile(char *settingsFileName, app_settings_t *settings,
         return RET_FAIL;
     }
 
-    if (settings->approx_function < 0 || settings->approx_function > 4) {
+    if (settings->approx_function > 4) {
         write_log("The settings->approx_function is invalid.\n");
         return RET_FAIL;
     }
@@ -301,8 +301,7 @@ int allocateMemoryBasedOnInputAndMaxLearningValues(
     return lineno;
 }
 
-inline void loadValuesFromUnordedFile(char *line, long lineno,
-                                      all_values_t *allValues) {
+inline void loadValuesFromUnordedFile(char *line, all_values_t *allValues) {
     tuning_params_t param;
     int valueCount = 0;
 
@@ -431,7 +430,7 @@ inline void loadValues(char *line, long lineno, all_values_t *allValues) {
     return;
 }
 
-int loadFile(FILE *pFile, unsigned int fileRows, long *errcount,
+int loadFile(FILE *pFile, unsigned int fileRows,
              all_values_t *reference_values) {
 
     char sInputBuf[BUFFER_SIZE];

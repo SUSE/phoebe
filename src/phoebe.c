@@ -241,7 +241,6 @@ int registerAllPlugins() {
 
 int main(int argc, char **argv) {
     FILE *inputDataFile;
-    long errcount = 0L;
 
     unsigned int n_threads;
 
@@ -285,9 +284,8 @@ int main(int argc, char **argv) {
 
     rewind(inputDataFile);
 
-    if (loadFile(inputDataFile, fileRows, &errcount, &reference_values) ==
-        RET_FAIL)
-        printf("loadFile(...) error (%ld)\n", errcount);
+    if (loadFile(inputDataFile, fileRows, &reference_values) == RET_FAIL)
+        printf("loadFile(...) error\n");
 
     fclose(inputDataFile);
 

@@ -8,11 +8,10 @@
 
 int addDataFromFile(tuning_params_t *srcParams, all_values_t *destParams);
 
-int loadFile(FILE *pFile, unsigned int fileRows, long *errcount,
+int loadFile(FILE *pFile, unsigned int fileRows,
              all_values_t *reference_values);
 void loadValues(char *line, long lineno, all_values_t *reference_values);
-void loadValuesFromUnordedFile(char *line, long lineno,
-                               all_values_t *reference_values);
+void loadValuesFromUnordedFile(char *line, all_values_t *reference_values);
 
 int allocateMemoryBasedOnInputAndMaxLearningValues(
     FILE *pFile, app_settings_t *app_settings, all_values_t *reference_values);

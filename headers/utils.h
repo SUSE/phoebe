@@ -26,7 +26,7 @@
 int _positionToInserElementAt(unsigned long transferRate,
                               all_values_t *destParams, unsigned int *pivot);
 
-void _repositionElements(all_values_t *destParams, int pivot);
+void _repositionElements(all_values_t *destParams, unsigned int pivot);
 
 double adjustValue(unsigned int pivot, double pivotValue, unsigned int refIndex,
                    double pivotPrevValue, double pivotNextValue, double epsilon,
