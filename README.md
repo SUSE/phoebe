@@ -34,7 +34,7 @@ Phoeβe is designed with a plugin architecture in mind, providing an interface f
 
 Plugins are loaded at runtime and registered with the main body of execution. The only requirement is to implement the interface dictated by the structure *plugin_t*. The **network_plugin.c** represents a very good example of how to implement a new plugin for Phoeβe.
 
-<img src="https://github.com/SUSE/phoebe/blob/main/phoebe.png">
+<img src="https://github.com/SUSE/phoebe/blob/main/imgs/phoebe.png">
 
 
 ## Disclaimer
