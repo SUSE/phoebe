@@ -336,7 +336,7 @@ int main(int argc, char **argv) {
 
         printf("Augmenting data...\n");
 
-        runLiveTraining(inputFileName);
+        runLiveTraining();
 
         printf("DONE.\n");
 
