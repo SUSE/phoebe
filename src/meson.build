@@ -23,3 +23,10 @@ phoebe = executable(
   install : true,
   install_dir : get_option('bindir')
 )
+
+data_tool = executable(
+  'data_tool',
+  'data_tool.c',
+  install : true,
+  install_dir : get_option('bindir')
+)

@@ -6,6 +6,8 @@
 
 #include <stdarg.h>
 
+#include "types.h"
+
 #define RX_RING_SIZE 0
 #define TX_RING_SIZE 1
 #define NET_CORE_NETDEV_MAX_BACKLOG 2
