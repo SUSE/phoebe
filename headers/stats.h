@@ -4,6 +4,7 @@
 #ifndef _STATS_H_
 #define _STATS_H_
 
+#include <netlink/route/link.h>
 #include <stdint.h>
 
 #include "types.h"
