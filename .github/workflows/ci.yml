@@ -69,23 +69,29 @@ jobs:
   lint:
     runs-on: ubuntu-latest
 
+    strategy:
+      fail-fast: false
+      matrix:
+        print_advanced_messages: [true, false]
+        print_table: [true, false]
+        check_initial_settings: [true, false]
     container:
       image: "registry.opensuse.org/home/dancermak/containers/phoebe:latest"
 
     steps:
     - uses: actions/checkout@v1
 
-    - name: configure
-      run: meson -Dprint_advanced_messages=true -Dprint_table=true -Dcheck_initial_settings=true build
+    - name: configure for clang
+      run: meson -Dprint_advanced_messages=${{ matrix.print_advanced_messages }} -Dprint_table=${{ matrix.print_table }} -Dcheck_initial_settings=${{ matrix.check_initial_settings }} -Dcollector=enabled -Dbuildtype=release build_clang
       env:
         CC: clang
 
-    - name: lint
+    - name: lint with clang tidy
       run: ninja clang-tidy
-      working-directory: ./build
+      working-directory: ./build_clang
 
     - name: format
       run: |
         ninja clang-format
         git diff --exit-code
-      working-directory: ./build
+      working-directory: ./build_clang
