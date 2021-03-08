@@ -253,7 +253,6 @@ int main(int argc, char **argv) {
         exit(RET_FAIL);
 
 #ifdef M_THREADS
-    unsigned int n_cores;
     retrieveNumberOfCores(&n_threads);
 #else
     n_threads = 1;
