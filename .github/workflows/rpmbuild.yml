@@ -46,7 +46,7 @@ jobs:
           - "fedora-rawhide"
           - "fedora-33"
           - "fedora-32"
-          - "centos-stream"
+          - "centos-stream-8"
 
     steps:
     - uses: actions/checkout@v1
