@@ -62,6 +62,7 @@ to offer eventually the best possible setup.
 %license LICENSE
 %doc README.md SETUP.md
 %{_bindir}/%{name}
+%{_bindir}/data_tool
 %dir %{_libdir}/%{name}
 %dir %{_datadir}/%{name}
 %dir %{_sysconfdir}/%{name}
