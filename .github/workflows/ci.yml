@@ -77,6 +77,8 @@ jobs:
 
     - name: configure
       run: meson -Dprint_advanced_messages=true -Dprint_table=true -Dcheck_initial_settings=true build
+      env:
+        CC: clang
 
     - name: lint
       run: ninja clang-tidy
