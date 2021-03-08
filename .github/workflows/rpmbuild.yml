@@ -28,7 +28,7 @@ jobs:
       run: |
         export VERSION=0.1
         git archive --format=tar.gz --output=phoebe-${VERSION}.tar.gz --prefix=phoebe-${VERSION}/ HEAD
-        mock -r /etc/mock/opensuse-tumbleweed-x86_64.cfg \
+        mock -r /etc/mock/opensuse-tumbleweed-x86_64.cfg --verbose \
             --isolation=simple --buildsrpm \
             --sources=phoebe-${VERSION}.tar.gz \
             --spec=dist/rpm/phoebe.spec --resultdir=srpm_res
@@ -78,7 +78,7 @@ jobs:
         echo config_opts[\'cache_topdir\'] = \"$(pwd)/mock_cache\" >> /etc/mock/site-defaults.cfg
 
     - name: build rpm
-      run: mock -r /etc/mock/${{ matrix.target }}-x86_64.cfg --isolation=simple --resultdir=rpms/ *.src.rpm
+      run: mock -r /etc/mock/${{ matrix.target }}-x86_64.cfg --verbose --isolation=simple --resultdir=rpms/ *.src.rpm
 
     - name: upload rpm
       uses: 'actions/upload-artifact@v2'
