@@ -395,6 +395,8 @@ void printTable(all_values_t *values) {
     }
     printf("############################################## TABLE CONTENT END "
            "##############################################\n\n");
+#else
+    (void)values;
 #endif
 }
 

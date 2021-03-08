@@ -240,6 +240,8 @@ int registerAllPlugins() {
 }
 
 int main(int argc, char **argv) {
+    (void)argc;
+    (void)argv;
     FILE *inputDataFile;
 
     unsigned int n_threads;

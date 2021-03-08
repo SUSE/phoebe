@@ -62,6 +62,8 @@ static inline void write_log(const char *format, ...) {
 
     vprintf(format, args);
     va_end(args);
+#else
+    (void)format;
 #endif
 }
 
@@ -72,6 +74,8 @@ static inline void write_adv_log(const char *format, ...) {
 
     vprintf(format, args);
     va_end(args);
+#else
+    (void)format;
 #endif
 }
 
