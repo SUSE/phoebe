@@ -12,8 +12,17 @@ jobs:
     steps:
     - uses: actions/checkout@v1
 
-    - name: install mock
-      run: dnf --setopt=install_weak_deps=False install -y mock git
+    - name: Cache mock cache
+      uses: actions/cache@v2
+      with:
+        path: mock_cache
+        key: srpm_root
+
+    - name: install & configure mock
+      run: |
+        mkdir -p mock_cache
+        dnf --setopt=install_weak_deps=False install -y mock git
+        echo config_opts[\'cache_topdir\'] = \"$(pwd)/mock_cache\" >> /etc/mock/site-defaults.cfg
 
     - name: build source RPM
       run: |
@@ -52,12 +61,21 @@ jobs:
     steps:
     - uses: actions/checkout@v1
 
+    - name: Cache mock cache
+      uses: actions/cache@v2
+      with:
+        path: mock_cache
+        key: rpm_root_${{ matrix.target }}
+
     - uses: actions/download-artifact@v2
       with:
         name: srpm_res
 
     - name: install mock
-      run: dnf --setopt=install_weak_deps=False install -y mock
+      run: |
+        mkdir -p mock_cache
+        dnf --setopt=install_weak_deps=False install -y mock
+        echo config_opts[\'cache_topdir\'] = \"$(pwd)/mock_cache\" >> /etc/mock/site-defaults.cfg
 
     - name: build rpm
       run: mock -r /etc/mock/${{ matrix.target }}-x86_64.cfg --isolation=simple --resultdir=rpms/ *.src.rpm
