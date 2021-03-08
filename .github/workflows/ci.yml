@@ -36,12 +36,12 @@ jobs:
       working-directory: ./build
 
     - name: test (with valgrind)
-      run: meson test --wrap=valgrind
+      run: meson test --wrap=valgrind || (cat meson-logs/testlog-valgrind.txt && exit 1)
       working-directory: ./build
       if: ${{ matrix.checker == 'valgrind' }}
 
     - name: test
-      run: meson test
+      run: meson test || (cat meson-logs/testlog.txt && exit 1)
       working-directory: ./build
       if: ${{ matrix.checker != 'valgrind' }}
 
