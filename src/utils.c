@@ -307,7 +307,7 @@ void printTable(all_values_t *values) {
                "kernel_sched_wakeup_granularity_ns=%d,"
                "kernel_sched_migration_cost_ns=%d,"
                "kernel_numa_balancing=%hd,"
-               "kernel_pid_max=%hd,"
+               "kernel_pid_max=%u,"
                "net_core_netdev_max_backlog=%d,"
                "net_core_netdev_budget=%d,"
                "net_core_somaxconn=%d,"

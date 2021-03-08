@@ -118,7 +118,7 @@ int writeRow(FILE *fp, tuning_params_t *row) {
     return fprintf(
         fp,
         "%lu,%lu,%lu,%lu,%lf,%hu,%hu,%hu,%hu,%u,%hu,%hu,%u,"
-        "%u,%u,%hu,%hu,"
+        "%u,%u,%hu,%u,"
         "%u,%u,%u,%hu,%hu,%lu,%lu,%lu,%lu,%hu,%hu,%hu,%lu,"
         "%lu,%lu,%lu,%lu,%lu,"
         "%u,%hu,%hu,%hu,%u,%hu,%hu,%hu,%hu,"
@@ -311,7 +311,7 @@ inline void loadValuesFromUnordedFile(char *line, all_values_t *allValues) {
     valueCount = sscanf(
         line,
         "%lu, %lu, %lu, %lu, %lf, %hu, %hu, %hu, %hu, %u, %hu, %hu, %u, "
-        "%u, %u, %hu, %hu, "
+        "%u, %u, %hu, %u, "
         "%u, %u, %u, %hu, %hu, %lu, %lu, %lu, %lu, %hu, %hu, %hu, %lu, "
         "%lu, %lu, %lu, %lu, %lu, "
         "%u, %hu, %hu, %hu, %u, %hu, %hu, %hu, %hu, %hu, %hu, %hu, %hu, "
@@ -360,7 +360,7 @@ inline void loadValues(char *line, long lineno, all_values_t *allValues) {
     valueCount = sscanf(
         line,
         "%lu, %lu, %lu, %lu, %lf, %hu, %hu, %hu, %hu, %u, %hu, %hu, %u, "
-        "%u, %u, %hu, %hu, "
+        "%u, %u, %hu, %u, "
         "%u, %u, %u, %hu, %hu, %lu, %lu, %lu, %lu, %hu, %hu, %hu, %lu, "
         "%lu, %lu, %lu, %lu, %lu, "
         "%u, %hu, %hu, %hu, %u, %hu, %hu, %hu, %hu, %hu, %hu, %hu, %hu, "
