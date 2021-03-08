@@ -15,7 +15,7 @@ typedef struct stats_input_params_s {
 
 double calculateCpuBusyPercentage(cpu_stats_t *prev, cpu_stats_t *cur);
 void readCpuStats(cpu_stats_t *stats);
-void *collectCpuStats(void *arg);
+void *collectCpuStats();
 int cpuGovernorIndex(const char *query);
 void calculateInterfaceRatesPerSecond(if_stats_t *prev, if_stats_t *cur,
                                       if_rates_t *rates,

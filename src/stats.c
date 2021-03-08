@@ -52,7 +52,7 @@ inline double calculateCpuBusyPercentage(cpu_stats_t *prev, cpu_stats_t *cur) {
     return NAN;
 }
 
-inline void *collectCpuStats(void *arg) {
+inline void *collectCpuStats() {
     cpu_stats_t stats, prev = {0};
     while (1) {
         readCpuStats(&stats);
