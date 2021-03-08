@@ -58,7 +58,8 @@ typedef struct tuning_params_s {
     unsigned int kernel_sched_wakeup_granularity_ns;
     unsigned int kernel_sched_migration_cost_ns;
     unsigned short kernel_numa_balancing;
-    unsigned short kernel_pid_max;
+    /* According to man proc(5) the maximum value is 2^22 */
+    unsigned int kernel_pid_max;
     unsigned int net_core_netdev_max_backlog;
     unsigned int net_core_netdev_budget;
     unsigned int net_core_somaxconn;
