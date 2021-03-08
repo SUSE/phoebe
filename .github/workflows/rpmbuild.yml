@@ -44,6 +44,7 @@ jobs:
           - "opensuse-leap-15.2"
           - "opensuse-tumbleweed"
           - "fedora-rawhide"
+          - "fedora-34"
           - "fedora-33"
           - "fedora-32"
           - "centos-stream-8"
