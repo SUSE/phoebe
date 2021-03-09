@@ -45,6 +45,8 @@ static double bias;
 static app_settings_t app_settings;
 static tuning_params_t system_settings;
 
+static  int registered_plugin_count = 0;
+
 static char operationalMode[MAX_COMMAND_LENGTH];
 static char interfaceName[MAX_INTERFACE_NAME_LENGTH];
 
@@ -53,7 +55,7 @@ static plugin_t *plugins[MAX_PLUGINS];
 void *runStdTraining(void *arg __attribute__((unused))) {
     unsigned short i;
 
-    for (i = 0; i < MAX_PLUGINS; i++)
+    for (i = 0; i < registered_plugin_count; i++)
         plugins[i]->training(inputFileName);
 
     return NULL;
@@ -62,21 +64,21 @@ void *runStdTraining(void *arg __attribute__((unused))) {
 void runLiveTraining() {
     unsigned short i;
 
-    for (i = 0; i < MAX_PLUGINS; i++)
+    for (i = 0; i < registered_plugin_count; i++)
         plugins[i]->livetraining(inputFileName);
 }
 
 void runInference() {
     unsigned short i;
 
-    for (i = 0; i < MAX_PLUGINS; i++)
+    for (i = 0; i < registered_plugin_count; i++)
         plugins[i]->inference();
 }
 
 void handleSigint(int sig __attribute__((unused))) {
     unsigned short i;
 
-    for (i = 0; i < MAX_PLUGINS; i++)
+    for (i = 0; i < registered_plugin_count; i++)
         plugins[i]->print_report();
 
     free(reference_values.parameters);
@@ -209,7 +211,6 @@ int endsWith(const char *str, const char *suffix) {
  * @return The number of plugins that were loaded.
  */
 int registerAllPlugins() {
-    int registered_plugin_count = 0;
     void *handle;
     char *error;
 
