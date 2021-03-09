@@ -88,7 +88,7 @@ Below is a detailed an explanation of what configurations are available in setti
     "app_settings": {
 
         // path where application is expecting to find plugins to load
-        "plugins_path": "/home/mvarlese/REPOS/ai-poc/bin",
+        "plugins_path": "/home/mvarlese/REPOS/phoebe/bin",
 
         // max_learning_values: number of values learnt per iteration
         "max_learning_values": 1000,
@@ -146,7 +146,7 @@ Below is a detailed an explanation of what configurations are available in setti
 
 ## Building
 
-The PoC code is built using [Meson](https://mesonbuild.com/):
+The code is built using [Meson](https://mesonbuild.com/):
 
 ```ShellSession
 $ meson build
