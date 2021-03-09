@@ -11,6 +11,7 @@
 #define MAX_INTERFACE_NAME_LENGTH 255
 #define MAX_COMMAND_LENGTH 1024
 #define MAX_PROC_STRING_LENGTH 256
+#define MAX_PLUGINS 16
 
 // adjust BUFFER_SIZE to suit longest line
 #define BUFFER_SIZE 1024 * 1024

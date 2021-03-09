@@ -48,20 +48,37 @@ static tuning_params_t system_settings;
 static char operationalMode[MAX_COMMAND_LENGTH];
 static char interfaceName[MAX_INTERFACE_NAME_LENGTH];
 
-static plugin_t *networkPlugin;
+static plugin_t *plugins[MAX_PLUGINS];
 
 void *runStdTraining(void *arg __attribute__((unused))) {
-    networkPlugin->training(inputFileName);
+    unsigned short i;
+
+    for (i = 0; i < MAX_PLUGINS; i++)
+        plugins[i]->training(inputFileName);
 
     return NULL;
 }
 
-void runLiveTraining() { networkPlugin->livetraining(inputFileName); }
+void runLiveTraining() {
+    unsigned short i;
 
-void runInference() { networkPlugin->inference(); }
+    for (i = 0; i < MAX_PLUGINS; i++)
+        plugins[i]->livetraining(inputFileName);
+}
+
+void runInference() {
+    unsigned short i;
+
+    for (i = 0; i < MAX_PLUGINS; i++)
+        plugins[i]->inference();
+}
 
 void handleSigint(int sig __attribute__((unused))) {
-    networkPlugin->print_report();
+    unsigned short i;
+
+    for (i = 0; i < MAX_PLUGINS; i++)
+        plugins[i]->print_report();
+
     free(reference_values.parameters);
     fflush(stdout);
 }
@@ -226,10 +243,10 @@ int registerAllPlugins() {
                     exit(EXIT_FAILURE);
                 }
 
-                networkPlugin = getPluginInstance();
-                networkPlugin->init(interfaceName, &app_settings,
-                                    &system_settings, &weights,
-                                    &reference_values, bias);
+                plugins[registered_plugin_count] = getPluginInstance();
+                plugins[registered_plugin_count]->init(
+                    interfaceName, &app_settings, &system_settings, &weights,
+                    &reference_values, bias);
 
                 registered_plugin_count++;
             }
