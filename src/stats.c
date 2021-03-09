@@ -26,6 +26,7 @@
 #include <unistd.h>
 
 #include "stats.h"
+#include "types.h"
 #include "utils.h"
 
 // Based on https://www.kernel.org/doc/Documentation/cpu-freq/governors.txt
@@ -71,10 +72,15 @@ inline void *collectCpuStats() {
 inline void readCpuStats(cpu_stats_t *stats) {
     char str[MAX_PROC_STRING_LENGTH];
     cpu_raw_stats_t raw;
+    memset(&raw, 0, sizeof(cpu_raw_stats_t));
 
     /*  cpu user nice system idle iowait irq softirq steal guest guest_nice
      */
     FILE *fp = fopen("/proc/stat", "r");
+    if (fp == NULL) {
+        perror(strerror(errno));
+        exit(EXIT_FAILURE);
+    }
     fgets(str, MAX_PROC_STRING_LENGTH, fp);
     sscanf(str, "%s %u %u %u %u %u %u %u %u %u %u", raw.cpu, &raw.user,
            &raw.nice, &raw.system, &raw.idle, &raw.iowait, &raw.irq,

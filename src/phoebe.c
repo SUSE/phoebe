@@ -329,6 +329,7 @@ int main(int argc, char **argv) {
         printf("Augmenting data...\n");
 
         pthread_t threads[n_threads];
+        memset(threads, 0, n_threads * sizeof(pthread_t));
         for (unsigned int i = 0; i < n_threads; i++)
             pthread_create(&threads[i], NULL, runStdTraining, NULL);
 
