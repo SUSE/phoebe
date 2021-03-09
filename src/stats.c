@@ -71,6 +71,7 @@ inline void *collectCpuStats() {
 inline void readCpuStats(cpu_stats_t *stats) {
     char str[MAX_PROC_STRING_LENGTH];
     cpu_raw_stats_t raw;
+    memset(&raw, 0, sizeof(cpu_raw_stats_t));
 
     /*  cpu user nice system idle iowait irq softirq steal guest guest_nice
      */
