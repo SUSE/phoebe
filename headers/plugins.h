@@ -4,6 +4,8 @@
 #ifndef _NETWORK_PLUGIN_H_
 #define _NETWORK_PLUGIN_H_
 
+#include "types.h"
+
 #define PLUGIN_NAME_LEN 32
 
 typedef struct plugin_s {

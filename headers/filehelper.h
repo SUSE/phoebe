@@ -6,6 +6,8 @@
 
 #include "types.h"
 
+#include <stdio.h>
+
 int addDataFromFile(tuning_params_t *srcParams, all_values_t *destParams);
 
 int loadFile(FILE *pFile, unsigned int fileRows,

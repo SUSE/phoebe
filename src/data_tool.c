@@ -10,6 +10,8 @@
 */
 
 int main(int argc, char **argv) {
+    (void)argc;
+    (void)argv;
     /* TO BE DEVELOPED during Hackweek */
     return 0;
 }

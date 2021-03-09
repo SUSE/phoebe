@@ -240,6 +240,8 @@ int registerAllPlugins() {
 }
 
 int main(int argc, char **argv) {
+    (void)argc;
+    (void)argv;
     FILE *inputDataFile;
 
     unsigned int n_threads;
@@ -251,7 +253,6 @@ int main(int argc, char **argv) {
         exit(RET_FAIL);
 
 #ifdef M_THREADS
-    unsigned int n_cores;
     retrieveNumberOfCores(&n_threads);
 #else
     n_threads = 1;
@@ -335,7 +336,7 @@ int main(int argc, char **argv) {
 
         printf("Augmenting data...\n");
 
-        runLiveTraining(inputFileName);
+        runLiveTraining();
 
         printf("DONE.\n");
 

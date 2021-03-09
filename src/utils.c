@@ -86,7 +86,8 @@ extern inline double adjustValue(unsigned int pivot, double pivotValue,
                                  unsigned int refIndex, double pivotPrevValue,
                                  double pivotNextValue, double epsilon,
                                  unsigned int approx_function) {
-    double res;
+    // FIXME: is this a sensible default?
+    double res = 0.0;
     if (pivot < refIndex) {
         if (pivotValue < pivotPrevValue)
             res = pivotPrevValue +
@@ -307,7 +308,7 @@ void printTable(all_values_t *values) {
                "kernel_sched_wakeup_granularity_ns=%d,"
                "kernel_sched_migration_cost_ns=%d,"
                "kernel_numa_balancing=%hd,"
-               "kernel_pid_max=%hd,"
+               "kernel_pid_max=%u,"
                "net_core_netdev_max_backlog=%d,"
                "net_core_netdev_budget=%d,"
                "net_core_somaxconn=%d,"
@@ -395,6 +396,8 @@ void printTable(all_values_t *values) {
     }
     printf("############################################## TABLE CONTENT END "
            "##############################################\n\n");
+#else
+    (void)values;
 #endif
 }
 
