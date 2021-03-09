@@ -76,6 +76,10 @@ inline void readCpuStats(cpu_stats_t *stats) {
     /*  cpu user nice system idle iowait irq softirq steal guest guest_nice
      */
     FILE *fp = fopen("/proc/stat", "r");
+    if (fp == NULL) {
+        perror(strerror(errno));
+        exit(EXIT_FAILURE);
+    }
     fgets(str, MAX_PROC_STRING_LENGTH, fp);
     sscanf(str, "%s %u %u %u %u %u %u %u %u %u %u", raw.cpu, &raw.user,
            &raw.nice, &raw.system, &raw.idle, &raw.iowait, &raw.irq,
