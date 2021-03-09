@@ -45,7 +45,7 @@ static double bias;
 static app_settings_t app_settings;
 static tuning_params_t system_settings;
 
-static  int registered_plugin_count = 0;
+static int registered_plugin_count = 0;
 
 static char operationalMode[MAX_COMMAND_LENGTH];
 static char interfaceName[MAX_INTERFACE_NAME_LENGTH];
