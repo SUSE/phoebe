@@ -86,7 +86,6 @@ extern inline double adjustValue(unsigned int pivot, double pivotValue,
                                  unsigned int refIndex, double pivotPrevValue,
                                  double pivotNextValue, double epsilon,
                                  unsigned int approx_function) {
-    // FIXME: is this a sensible default?
     double res = 0.0;
     if (pivot < refIndex) {
         if (pivotValue < pivotPrevValue)
