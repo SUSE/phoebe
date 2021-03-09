@@ -26,6 +26,7 @@
 #include <unistd.h>
 
 #include "stats.h"
+#include "types.h"
 #include "utils.h"
 
 // Based on https://www.kernel.org/doc/Documentation/cpu-freq/governors.txt

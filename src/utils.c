@@ -2,7 +2,6 @@
 // Copyright SUSE LLC
 
 #include <assert.h>
-#include <errno.h>
 #include <limits.h>
 #include <math.h>
 #include <netinet/ip.h>
