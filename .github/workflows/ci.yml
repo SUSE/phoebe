@@ -118,3 +118,55 @@ jobs:
         ninja clang-format
         git diff --exit-code
       working-directory: ./build_clang
+
+  infer:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        shell: bash
+
+    container:
+      image: docker.io/library/ubuntu:20.04
+
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: install dependencies
+      run: |
+        apt update
+        apt install -y curl xz-utils clang ninja-build python3-pip pkg-config libnl-3-dev libnl-nf-3-dev libjson-c-dev tzdata libncurses5 jq bash
+        pip3 install meson
+      env:
+        DEBIAN_FRONTEND: noninteractive
+
+    - name: download and install infer
+      run: |
+        curl -sSL "https://github.com/facebook/infer/releases/download/v$VERSION/infer-linux64-v$VERSION.tar.xz" | tar -C /opt -xJ
+        ln -s "/opt/infer-linux64-v$VERSION/bin/infer" /usr/local/bin/infer
+      env:
+        VERSION: 1.0.0
+
+    - name: configure for clang
+      run: /usr/local/bin/meson -Dprint_advanced_messages=true -Dprint_table=true -Dcheck_initial_settings=true -Dbuildtype=release build_clang
+      env:
+        CC: clang
+
+    - name: run infer
+      run: |
+        infer capture --compilation-database build_clang/compile_commands.json
+        infer analyze
+
+    - name: fail if there are issues present
+      run: |
+        if [[ $(jq length ./infer-out/report.json) -ne 0 ]]; then
+            cat ./infer-out/report.txt
+            exit 1
+        fi
+
+    - name: upload infer report
+      uses: 'actions/upload-artifact@v2'
+      if: ${{ always() }}
+      with:
+        name: infer-out
+        path: ./infer-out
