@@ -1,6 +1,3 @@
-settings_json = files('settings.json')
-install_data(settings_json, install_dir : get_option('sysconfdir') / meson.project_name())
-
 setup_script = find_program(meson.current_source_dir() / 'setup.sh')
 
 # When building with clang we use -shared-libasan, but clang's shared ASAS/UBSAN
