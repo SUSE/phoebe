@@ -1,7 +1,5 @@
-settings_json = files('settings.json')
-install_data(settings_json, install_dir : get_option('sysconfdir') / meson.project_name())
-
 setup_script = find_program(meson.current_source_dir() / 'setup.sh')
+find_libasan_script = find_program(meson.current_source_dir() / 'find_gcc_libasan.sh')
 
 # When building with clang we use -shared-libasan, but clang's shared ASAS/UBSAN
 # is not in the default library search path. Thus we must add it manually to
@@ -26,7 +24,7 @@ elif cc.get_id() == 'clang'
     '-print-file-name=libclang_rt.asan-@0@.so'.format(build_machine.cpu_family()),
   ).stdout().strip()
 elif cc.get_id() == 'gcc'
-  libasan = run_command(cc, '-print-file-name=libasan.so').stdout().strip()
+  libasan = run_command(find_libasan_script).stdout().strip()
 else
   error('Unsupported compiler to use with address sanitizer')
 endif
@@ -63,3 +61,13 @@ test(
   depends : [abi],
   env : python_env,
 )
+
+cmocka = dependency('cmocka')
+
+unit_tests = executable(
+  'unit_tests',
+  ['unit_tests.c', 'test_filehelper.c'] + common_src,
+  dependencies : [cmocka, common_dep],
+  link_args : ['-Wl,--wrap=feof', '-Wl,--wrap=fgetc']
+)
+test('unit tests', unit_tests, env : env)

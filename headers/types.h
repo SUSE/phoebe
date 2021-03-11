@@ -6,6 +6,7 @@
 
 #include <stdbool.h>
 #include <stdint.h>
+#include <stdio.h>
 
 #define MAX_FILENAME_LENGTH 255
 #define MAX_INTERFACE_NAME_LENGTH 255
