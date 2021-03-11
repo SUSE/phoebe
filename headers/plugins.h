@@ -14,7 +14,7 @@ typedef struct plugin_s {
     double version;
     void (*init)(char *, app_settings_t *, tuning_params_t *,
                  weights_reference_t *, all_values_t *, double);
-    void (*inference)();
+    void *(*inference)(void *thread_args);
     void (*training)(char *inputFileName);
     void (*livetraining)(char *inputFileName);
     void (*destroy)();

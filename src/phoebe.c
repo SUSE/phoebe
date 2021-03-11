@@ -71,8 +71,13 @@ void runLiveTraining() {
 void runInference() {
     unsigned short i;
 
+    pthread_t threads[MAX_PLUGINS];
+
     for (i = 0; i < registered_plugin_count; i++)
-        plugins[i]->inference();
+        pthread_create(&threads[i], NULL, plugins[i]->inference, NULL);
+
+    for (int i = 0; i < registered_plugin_count; i++)
+        pthread_join(threads[i], NULL);
 }
 
 void handleSigint(int sig __attribute__((unused))) {

@@ -199,7 +199,7 @@ void networkLiveTraining(char *inputFileName) {
     }
 }
 
-void networkRunInference() {
+void *networkRunInference(void *args __attribute__((unused))) {
 
     int i = 0;
     double prevWeightedValue = 0L;
