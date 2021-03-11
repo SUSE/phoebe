@@ -21,8 +21,8 @@ void loadValuesFromUnordedFile(char *line, all_values_t *reference_values);
  *
  * @warning This function calls exit if a call to `malloc(3)` fails.
  *
- * @return The number of lines in pFile or @ref RET_FAIL if the file cannot be
- *     read or no file is open.
+ * @return The number of lines in pFile minus 1 or @ref RET_FAIL if the file
+ *     cannot be read or no file is open.
  */
 int allocateMemoryBasedOnInputAndMaxLearningValues(
     FILE *pFile, const app_settings_t *app_settings,
