@@ -72,11 +72,12 @@ void runInference() {
     unsigned short i;
 
     pthread_t threads[MAX_PLUGINS];
+    memset(threads, 0, MAX_PLUGINS * sizeof(pthread_t));
 
     for (i = 0; i < registered_plugin_count; i++)
         pthread_create(&threads[i], NULL, plugins[i]->inference, NULL);
 
-    for (int i = 0; i < registered_plugin_count; i++)
+    for (i = 0; i < registered_plugin_count; i++)
         pthread_join(threads[i], NULL);
 }
 
