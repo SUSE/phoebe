@@ -32,6 +32,7 @@
 #include "phoebe.h"
 #include "plugins.h"
 #include "stats.h"
+#include "types.h"
 #include "utils.h"
 
 char inputFileName[MAX_FILENAME_LENGTH];
@@ -72,6 +73,7 @@ void runInference() {
     unsigned short i;
 
     pthread_t threads[MAX_PLUGINS];
+    memset(threads, 0, MAX_PLUGINS * sizeof(pthread_t));
 
     for (i = 0; i < registered_plugin_count; i++)
         pthread_create(&threads[i], NULL, plugins[i]->inference, NULL);
