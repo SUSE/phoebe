@@ -27,6 +27,7 @@
 #include "algorithmic.h"
 #include "filehelper.h"
 #include "phoebe.h"
+#include "types.h"
 #include "utils.h"
 
 int addDataFromFile(tuning_params_t *srcParams, all_values_t *destParams) {
@@ -274,29 +275,37 @@ int readSettingsFromJsonFile(char *settingsFileName, app_settings_t *settings,
 }
 
 int allocateMemoryBasedOnInputAndMaxLearningValues(
-    FILE *pFile, app_settings_t *app_settings, all_values_t *reference_values) {
-    char sInputBuf[BUFFER_SIZE];
+    FILE *pFile, const app_settings_t *app_settings,
+    all_values_t *reference_values) {
     long lineno = 0L;
 
-    if (pFile == NULL)
+    if (pFile == NULL) {
         return RET_FAIL;
-
-    // load line into static buffer
-    if (fgets(sInputBuf, BUFFER_SIZE - 1, pFile) == NULL)
-        return RET_FAIL;
-
-    while (!feof(pFile)) {
-        // load line into static buffer
-        if (fgets(sInputBuf, BUFFER_SIZE - 1, pFile) == NULL)
-            break;
-
-        ++lineno;
     }
+
+    int c = 0;
+    while (!feof(pFile)) {
+        c = fgetc(pFile);
+        if (c == '\n') {
+            ++lineno;
+        }
+    }
+
+    if (lineno < 1) {
+        // the file must have at least one line (= the header)
+        return RET_FAIL;
+    }
+    --lineno;
 
     reference_values->totalLength = app_settings->max_learning_values + lineno;
     reference_values->validValues = 0;
-    reference_values->parameters = (tuning_params_t *)malloc(
-        sizeof(tuning_params_t) * reference_values->totalLength);
+    reference_values->parameters =
+        calloc(reference_values->totalLength, sizeof(tuning_params_t));
+
+    if (reference_values->parameters == NULL) {
+        perror(strerror(errno));
+        exit(EXIT_FAILURE);
+    }
 
     return lineno;
 }

@@ -52,7 +52,7 @@ to offer eventually the best possible setup.
 %build
 # export build flags manually if %%set_build_flags is not defined
 %{?!set_build_flags:export CFLAGS="%{optflags}"; export LDFLAGS="${RPM_LD_FLAGS}"}
-%meson
+%meson -Dwith_tests=false
 %meson_build
 
 %install

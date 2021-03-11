@@ -26,3 +26,7 @@ option(
   'collector', type : 'feature', value : 'auto',
   description : 'when enabled will build library requires for collect_stats.py, which is used to collect system metrics to train the AI model'
 )
+option(
+  'with_tests', type : 'boolean', value : true,
+  description : 'when enabled, then the tests will be build and run as well'
+)
