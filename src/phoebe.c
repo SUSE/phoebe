@@ -250,12 +250,17 @@ int registerAllPlugins() {
                     exit(EXIT_FAILURE);
                 }
 
-                plugins[registered_plugin_count] = getPluginInstance();
-                plugins[registered_plugin_count]->init(
-                    interfaceName, &app_settings, &system_settings, &weights,
-                    &reference_values, bias);
+                plugin_t *plugin = getPluginInstance();
 
-                registered_plugin_count++;
+                if (plugin->active) {
+                    plugins[registered_plugin_count] = plugin;
+
+                    plugins[registered_plugin_count]->init(
+                        interfaceName, &app_settings, &system_settings,
+                        &weights, &reference_values, bias);
+
+                    registered_plugin_count++;
+                }
             }
         }
         closedir(d);
