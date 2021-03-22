@@ -133,6 +133,15 @@ Below is a detailed an explanation of what configurations are available in setti
 
     },
 
+    "labels": {
+        // geography: valid options are EMEA, NA, LAT, APAC, NOT_SET
+        "geography": "NOT_SET",
+        // business: valid options are RETAIL, AUTOMOTIVE, SERVICE, NOT_SET
+        "business": "NOT_SET",
+        // behavior: valid options are THROUGHPUT, LATENCY, POWER
+        "behavior": "THROUGHPUT"
+    },
+
     "weights":{
         "transfer_rate_weight": 0.8,
         "drop_rate_weight" : 0.1,

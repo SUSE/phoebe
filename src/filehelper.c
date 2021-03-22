@@ -148,7 +148,8 @@ int writeRow(FILE *fp, tuning_params_t *row) {
         row->rx_vlan_offload, row->tx_vlan_offload, row->rx_hash);
 }
 int readSettingsFromJsonFile(char *settingsFileName, app_settings_t *settings,
-                             weights_reference_t *weights, double *bias) {
+                             label_t *labels, weights_reference_t *weights,
+                             double *bias) {
     FILE *fp;
     size_t read_size;
     char buffer[BUFFER_SIZE + 1];
@@ -166,10 +167,14 @@ int readSettingsFromJsonFile(char *settingsFileName, app_settings_t *settings,
     struct json_object *stats_collection_period;
     struct json_object *inference_loop_period;
     struct json_object *plugins_path;
+    struct json_object *geography;
+    struct json_object *business;
+    struct json_object *behavior;
 
     struct json_object *app_settings;
     struct json_object *weights_settings;
     struct json_object *bias_settings;
+    struct json_object *labels_settings;
 
     if ((fp = fopen(settingsFileName, "r")) == NULL)
         return RET_FAIL;
@@ -231,6 +236,48 @@ int readSettingsFromJsonFile(char *settingsFileName, app_settings_t *settings,
     write_adv_log("settings->accuracy: %f\n", settings->accuracy);
     write_adv_log("settings->approx_function: %d\n", settings->approx_function);
     write_adv_log("settings->grace_period: %d\n", settings->grace_period);
+
+    json_object_object_get_ex(parsed_json, "labels", &labels_settings);
+    json_object_object_get_ex(labels_settings, "geography", &geography);
+    json_object_object_get_ex(labels_settings, "business", &business);
+    json_object_object_get_ex(labels_settings, "behavior", &behavior);
+
+    const char *tmpString = json_object_get_string(geography);
+    if (strncmp(tmpString, "NOT_SET", strlen("NOT_SET")))
+        labels->geo = NOT_SET;
+    else if (strncmp(tmpString, "EMEA", strlen("EMEA")))
+        labels->geo = EMEA;
+    else if (strncmp(tmpString, "NA", strlen("NA")))
+        labels->geo = NA;
+    else if (strncmp(tmpString, "LAT", strlen("LAT")))
+        labels->geo = LAT;
+    else if (strncmp(tmpString, "APAC", strlen("APAC")))
+        labels->geo = APAC;
+
+    write_adv_log("labels->geography: %s --> %u\n", tmpString, labels->geo);
+
+    tmpString = json_object_get_string(business);
+    if (strncmp(tmpString, "NOT_SET", strlen("NOT_SET")))
+        labels->business = NOT_SET;
+    else if (strncmp(tmpString, "RETAIL", strlen("RETAIL")))
+        labels->business = RETAIL;
+    else if (strncmp(tmpString, "AUTOMOTIVE", strlen("AUTOMOTIVE")))
+        labels->geo = AUTOMOTIVE;
+    else if (strncmp(tmpString, "SERVICE", strlen("SERVICE")))
+        labels->geo = SERVICE;
+
+    write_adv_log("labels->business: %s --> %u\n", tmpString, labels->business);
+
+    tmpString = json_object_get_string(behavior);
+    if (strncmp(tmpString, "THROUGHPUT", strlen("THROUGHPUT")))
+        labels->business = THROUGHPUT;
+    else if (strncmp(tmpString, "LATENCY", strlen("LATENCY")))
+        labels->geo = LATENCY;
+    else if (strncmp(tmpString, "POWER", strlen("POWER")))
+        labels->geo = POWER;
+
+    write_adv_log("labels->behavior: %s --> %u\n", tmpString,
+                  labels->optimize_for);
 
     json_object_object_get_ex(parsed_json, "weights", &weights_settings);
     json_object_object_get_ex(weights_settings, "transfer_rate_weight",

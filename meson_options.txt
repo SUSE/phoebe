@@ -3,7 +3,7 @@ option(
   description : 'print the most important messages to stdout'
 )
 option(
-  'print_advanced_messages', type : 'boolean', value : false,
+  'print_advanced_messages', type : 'boolean', value : true,
   description : 'enable very verbose logging'
 )
 option(

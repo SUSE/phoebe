@@ -29,7 +29,7 @@ int allocateMemoryBasedOnInputAndMaxLearningValues(
     all_values_t *reference_values);
 
 int readSettingsFromJsonFile(char *settingsFileName,
-                             app_settings_t *app_settings,
+                             app_settings_t *app_settings, label_t *labels,
                              weights_reference_t *weights, double *bias);
 
 unsigned int saveTrainedDataToFile(all_values_t *values,

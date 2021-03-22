@@ -107,8 +107,36 @@ typedef struct weights_reference_s {
     double fifo_errors_rate_weight;
 } weights_reference_t;
 
+#define NOT_SET 255
+
+#define EMEA 0
+#define NA 1
+#define LAT 2
+#define APAC 3
+
+typedef unsigned short GEOGRAPHY;
+
+#define RETAIL 0
+#define AUTOMOTIVE 1
+#define SERVICE 2
+
+typedef unsigned short BIZ;
+
+#define THROUGHPUT 0
+#define LATENCY 1
+#define POWER 2
+
+typedef unsigned short BEHAVIOR;
+
+typedef struct labels_s {
+    GEOGRAPHY geo;
+    BIZ business;
+    BEHAVIOR optimize_for;
+} label_t;
+
 typedef struct all_values_s {
     tuning_params_t *parameters;
+    label_t *labels;
     unsigned int totalLength;
     unsigned int validValues;
 } all_values_t;

@@ -44,6 +44,7 @@ static weights_reference_t weights;
 static double bias;
 static app_settings_t app_settings;
 static tuning_params_t system_settings;
+static label_t labels;
 
 static int registered_plugin_count = 0;
 
@@ -94,12 +95,14 @@ void handleSigint(int sig __attribute__((unused))) {
 void handleSighup(int sig __attribute__((unused))) {
     app_settings_t tmpAppSettings;
     weights_reference_t tmpWeights;
+    label_t tmpLabels;
     double tmpBias;
 
-    if (readSettingsFromJsonFile(settingsFileName, &tmpAppSettings, &tmpWeights,
-                                 &tmpBias) == RET_OK) {
+    if (readSettingsFromJsonFile(settingsFileName, &tmpAppSettings, &tmpLabels,
+                                 &tmpWeights, &tmpBias) == RET_OK) {
         memcpy(&app_settings, &tmpAppSettings, sizeof(app_settings_t));
         memcpy(&weights, &tmpWeights, sizeof(weights_reference_t));
+        memcpy(&labels, &tmpLabels, sizeof(labels));
         bias = tmpBias;
     }
 }
@@ -293,8 +296,8 @@ int main(int argc, char **argv) {
 
     write_log("Loading file (%s)...", settingsFileName);
     fflush(stdout);
-    if (readSettingsFromJsonFile(settingsFileName, &app_settings, &weights,
-                                 &bias) == RET_FAIL)
+    if (readSettingsFromJsonFile(settingsFileName, &app_settings, &labels,
+                                 &weights, &bias) == RET_FAIL)
         exit(1);
     write_log("DONE.\n");
 
