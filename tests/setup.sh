@@ -20,6 +20,11 @@ cat <<EOF > settings.json
     "stats_collection_period": 0.5,
     "inference_loop_period": 1
   },
+  "labels": {
+    "geography": "NOT_SET",
+    "business": "NOT_SET",
+    "behavior": "THROUGHPUT"
+  },
   "weights": {
     "transfer_rate_weight": 0.8,
     "drop_rate_weight": 0.1,
