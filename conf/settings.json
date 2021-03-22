@@ -45,6 +45,11 @@
         "inference_loop_period": 1
         
     },
+    "labels": {
+        "geography": "NOT_SET",
+        "business": "NOT_SET",
+        "behavior": "THROUGHPUT"
+    },
     "weights":{
         "transfer_rate_weight": 0.8,
         "drop_rate_weight" : 0.1,
