@@ -17,7 +17,8 @@ options = [
   ['print_table', 'PRINT_TABLE'],
   ['apply_changes', 'APPLY_CHANGES'],
   ['check_initial_settings', 'CHECK_INITIAL_SETTINGS'],
-  ['m_threads', 'M_THREADS']
+  ['m_threads', 'M_THREADS'],
+  ['use_linear_regression', 'LINEAR_REGRESSION']
 ]
 
 if get_option('b_sanitize') == 'undefined'

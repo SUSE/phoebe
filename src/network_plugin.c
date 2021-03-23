@@ -158,6 +158,7 @@ void networkLiveTraining(char *inputFileName) {
             fifoErrorsRate == 0)
             continue;
 
+#ifdef LINEAR_REGRESSION
         double weightedValue =
             calculateWeightedValue(transferRate, dropRate, errorsRate,
                                    fifoErrorsRate, _weights, _bias);
@@ -167,6 +168,7 @@ void networkLiveTraining(char *inputFileName) {
             calculateEpsilon(zeros, _network_app_settings->accuracy);
         double toleranceValue = calculateTolerance(
             weightedValue, epsilon, _network_app_settings->approx_function);
+#endif
 
         unsigned int closestIndex = 0;
         if ((origTableIndex = binarySearchWithTolerance(
@@ -224,6 +226,7 @@ void *networkRunInference(void *args __attribute__((unused))) {
             fifoErrorsRate == 0)
             continue;
 
+#ifdef LINEAR_REGRESSION
         double weightedValue =
             calculateWeightedValue(transferRate, dropRate, errorsRate,
                                    fifoErrorsRate, _weights, _bias);
@@ -234,6 +237,7 @@ void *networkRunInference(void *args __attribute__((unused))) {
         double toleranceValue = calculateTolerance(
             weightedValue, epsilon, _network_app_settings->approx_function);
         double weightedValueDiff = fabs(weightedValue - prevWeightedValue);
+#endif
 
         printAdviseMsg++;
 
@@ -339,6 +343,7 @@ void networkRunTraining(char *inputFileName) {
 
         assert(transferRate != 0);
 
+#ifdef LINEAR_REGRESSION
         double weightedValue =
             calculateWeightedValue(transferRate, dropRate, errorsRate,
                                    fifoErrorsRate, _weights, _bias);
@@ -350,6 +355,7 @@ void networkRunTraining(char *inputFileName) {
 
         double toleranceValue = calculateTolerance(
             weightedValue, epsilon, _network_app_settings->approx_function);
+#endif
 
         unsigned int closestIndex = 0;
         if (pthread_mutex_lock(&tableWriteLock) == 0) {
