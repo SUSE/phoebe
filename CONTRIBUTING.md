@@ -27,7 +27,7 @@ Please, use the Issues feature for any work happening on the code.
 
 ## Create pull request
 * Creat a branch for your PR: `git checkout -b <proposal>`
-* Develop your code and follow the (http://llvm.org/docs/CodingStandards.html)[llvm coding standard).
+* Develop your code and follow the [llvm coding standard](http://llvm.org/docs/CodingStandards.html).
 * Ensure your code adheres to the coding standards: run `ninja clang-format` and `ninja clang-tidy` in the build directory.
 * Ensure the code builds successfully on your machine
 * Push to your repo: _git push origin <proposal>_
