@@ -167,6 +167,7 @@ int readSettingsFromJsonFile(char *settingsFileName, app_settings_t *settings,
     struct json_object *stats_collection_period;
     struct json_object *inference_loop_period;
     struct json_object *plugins_path;
+    struct json_object *rates_filename;
     struct json_object *geography;
     struct json_object *business;
     struct json_object *behavior;
@@ -198,6 +199,7 @@ int readSettingsFromJsonFile(char *settingsFileName, app_settings_t *settings,
     json_object_object_get_ex(app_settings, "inference_loop_period",
                               &inference_loop_period);
     json_object_object_get_ex(app_settings, "plugins_path", &plugins_path);
+    json_object_object_get_ex(app_settings, "rates_filename", &rates_filename);
 
     settings->max_learning_values = json_object_get_int(max_learning_values);
     settings->saving_loop = json_object_get_int(saving_loop);
@@ -215,6 +217,13 @@ int readSettingsFromJsonFile(char *settingsFileName, app_settings_t *settings,
            json_object_get_string_len(plugins_path) + 1);
 
     write_adv_log("settings->plugins_path: %s\n", settings->plugins_path);
+
+    assert(sizeof(settings->rates_filename) >
+           (long unsigned int)json_object_get_string_len(rates_filename));
+    memcpy(settings->rates_filename, json_object_get_string(rates_filename),
+           json_object_get_string_len(rates_filename) + 1);
+
+    write_adv_log("settings->rates_filename: %s\n", settings->rates_filename);
 
     write_adv_log("settings->max_learning_values: %d\n",
                   settings->max_learning_values);

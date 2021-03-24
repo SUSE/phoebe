@@ -109,11 +109,12 @@ void handleSighup(int sig __attribute__((unused))) {
 
 void printHelp(char *argv0) {
     printf("Usage: %s [options]\n\n", argv0);
-    printf("\t-f, --csvfile\t\tinput-file path\n");
     printf("\t-i, --interface\t\tinterface to monitor\n");
     printf("\t-m, --mode\t\ttraining | live-training | inference\n");
     printf("\t-s, --settings\t\tJSON file for app-settings\n");
     printf("\t-?\t\t\tprints this help and exit\n");
+    printf("\tDeprecated switches:\n");
+    printf("\t-f, --csvfile\t\tinput-file path\n");
     printf("\n\n");
 }
 
@@ -176,8 +177,8 @@ int handleCommandLineArguments(int argc, char **argv) {
         } break;
 
         case 'f': {
-            memset(inputFileName, 0, MAX_FILENAME_LENGTH);
-            memcpy(inputFileName, optarg, strlen(optarg));
+            printf("Warning: desprecated -f switch used\n");
+            memcpy(app_settings.rates_filename, optarg, strlen(optarg));
         } break;
 
         case 's': {
@@ -304,7 +305,7 @@ int main(int argc, char **argv) {
     write_log("Loading file (%s)...", inputFileName);
     fflush(stdout);
 
-    inputDataFile = fopen(inputFileName, "r");
+    inputDataFile = fopen(app_settings.rates_filename, "r");
     if (inputDataFile == NULL) {
         printf("Error (%d) opening input CSV file.\n\n", errno);
         printHelp(argv[0]);

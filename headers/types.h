@@ -31,6 +31,7 @@ typedef struct app_settings_s {
     double stats_collection_period;
     double inference_loop_period;
     char plugins_path[MAX_FILENAME_LENGTH];
+    char rates_filename[MAX_FILENAME_LENGTH];
 } app_settings_t;
 
 #define USEC_IN_SEC 1000000 /* Expressed in microseconds; 1s = 10^6usec */
