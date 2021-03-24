@@ -18,6 +18,8 @@ Since TREX cannot handle ARP request to resolve IPs used by `benjamin`, we need 
 $ for i in $(seq 3 254); do sudo ip neigh add 192.168.2.$i lladdr 00:1b:21:3c:9e:2c dev ixgbe1; done
 ```
 
+`david` also suppose to run Phoeβe . Follow [BUILDING.md](BUILDING.md) for build it and [README.md#Running](README.md#running) how to execute it.
+
 ## Setting up `benjamin`
 
 Install the latest TREX from archive at https://trex-tgn.cisco.com/trex/release/latest
@@ -38,11 +40,11 @@ Write the following TREX configuration into `/etc/trex_cfg.yaml`.
             dest_mac: 00:1b:21:3c:9e:2c
 ```
 
-Modify nginx_wget.py so the 192.168.2.0/24 subnet is used.
+Modify nginx_wget_local.py so the 192.168.2.0/24 subnet is used.
 
 ```diff
---- astf/nginx_wget.py
-+++ astf/nginx_wget.py
+--- astf/nginx_wget_local.py
++++ astf/nginx_wget_local.py
 @@ -4,8 +4,8 @@
  class Prof1():
      def get_profile(self, **kwargs):
