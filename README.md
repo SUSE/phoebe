@@ -14,17 +14,17 @@ System-level tuning is a very complex activity, requiring the knowledge and expe
 the system itself, how they interact with each other and (quite often) it is required to also have an intimate knowledge of
 the implementation of the various layers.
 
-Another big aspect of running systems is dealing with failure. Do not think of failure as a machine turning on fire rather as 
+Another big aspect of running systems is dealing with failure. Do not think of failure as a machine turning on fire rather as
 an overloaded system, caused by misconfiguration, which could lead to starvation of the available resources.
 
-In many circumstances, operators are used to deal with telemetry, live charts, alerts, etc. which could help them identifying 
+In many circumstances, operators are used to deal with telemetry, live charts, alerts, etc. which could help them identifying
 the offending machine(s) and (re)act to fix any potential issues.
 
-However, one question comes to mind: wouldn't it be awesome if the machine could auto-tune itself and provide a self-healing 
+However, one question comes to mind: wouldn't it be awesome if the machine could auto-tune itself and provide a self-healing
 capability to the user? Well, if that is enough to trigger your interest then this is what Phoeβe aims to provide.
 
-Phoeβe uses system telemetry as the input to its <i>brain</i> and produces a big set of settings which get applied to the 
-running system. The decision made by the <i>brain</i> is continuously reevaluated (considering the <i>grace_period</i> setting) 
+Phoeβe uses system telemetry as the input to its <i>brain</i> and produces a big set of settings which get applied to the
+running system. The decision made by the <i>brain</i> is continuously reevaluated (considering the <i>grace_period</i> setting)
 to offer eventually the best possible setup.
 
 
@@ -162,7 +162,7 @@ The code supports multiple mode of operation:
 
 * Training mode:
 ```ShellSession
-./build/src/phoebe -f ./csv_files/rates_trained_data.csv -m training -s settings.json
+./build/src/phoebe -f ./csv_files/rates.csv -m training -s settings.json
 ```
 
 * Inference
