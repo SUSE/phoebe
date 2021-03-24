@@ -17,7 +17,7 @@
 
 
 Name:           phoebe
-Version:        0.1
+Version:        0.1.2
 Release:        0
 Summary:        Phoeβe wants to add basic artificial intelligence capabilities to the Linux OS
 License:        BSD-3-Clause
@@ -31,6 +31,8 @@ BuildRequires:  gcc
 BuildRequires:  python3-cffi
 BuildRequires:  python3-devel
 BuildRequires:  python3-pycparser
+%{?systemd_ordering}
+BuildRequires:  pkgconfig(systemd)
 
 %description
 
@@ -57,6 +59,20 @@ to offer eventually the best possible setup.
 
 %install
 %meson_install
+mkdir -p %{buildroot}%{_sbindir}
+ln -s /usr/sbin/service %{buildroot}%{_sbindir}/rcphoebe
+
+%pre 
+%service_add_pre phoebe.service
+
+%post
+%service_add_post phoebe.service
+
+%preun 
+%service_del_preun phoebe.service
+
+%postun 
+%service_del_postun phoebe.service
 
 %files
 %license LICENSE
@@ -69,5 +85,7 @@ to offer eventually the best possible setup.
 %{_libdir}/%{name}/libnetwork_plugin.so
 %{_datadir}/%{name}/rates.csv
 %config(noreplace) %{_sysconfdir}/%{name}/settings.json
+%{_unitdir}/phoebe.service
+%{_sbindir}/rcphoebe
 
 %changelog
