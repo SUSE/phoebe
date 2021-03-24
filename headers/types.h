@@ -19,8 +19,12 @@
 #define MAXERRS 5
 #define RET_OK 0
 #define RET_FAIL -1
+#ifndef FALSE // might be allready defined in json.h
 #define FALSE 0
+#endif
+#ifndef TRUE
 #define TRUE 1
+#endif
 
 typedef struct app_settings_s {
     unsigned int max_learning_values;
