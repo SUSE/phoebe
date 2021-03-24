@@ -6,13 +6,6 @@
 #include <getopt.h>
 #include <limits.h>
 #include <math.h>
-#include <netinet/ip.h>
-#include <netlink/attr.h>
-#include <netlink/cache.h>
-#include <netlink/msg.h>
-#include <netlink/netlink.h>
-#include <netlink/route/link.h>
-#include <netlink/route/rtnl.h>
 #include <pthread.h>
 #include <signal.h>
 #include <stdarg.h>
