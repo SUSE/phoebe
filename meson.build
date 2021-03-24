@@ -37,6 +37,12 @@ foreach opt : options
   endif
 endforeach
 
+systemd = dependency('systemd')
+systemd_system_unit_dir = systemd.get_pkgconfig_variable('systemdsystemunitdir')
+unit_files = [
+    'phoebe-network.service'
+]
+
 subdir('conf')
 subdir('src')
 subdir('scripts')
@@ -44,3 +50,13 @@ if get_option('with_tests')
   subdir('tests')
 endif
 subdir('csv_files')
+
+foreach u : unit_files
+    configure_file(
+        copy: true,
+        input: u,
+        install: true,
+        install_dir: systemd_system_unit_dir,
+        output: u,
+    )
+endforeach

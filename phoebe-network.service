@@ -1,0 +1,13 @@
+[Unit]
+Description=phoebe network optimization
+Documentation=man:phoebe-network(8)
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/phoebe -f /usr/share/phoebe/rates.csv -m inference -s  /etc/phoebe/settings.json
+Type=simple
+
+#Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
