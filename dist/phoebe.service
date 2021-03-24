@@ -1,6 +1,6 @@
 [Unit]
-Description=phoebe network optimization
-Documentation=man:phoebe-network(8)
+Description=phoebe automatic tuning
+Documentation=man:phoebe(8)
 After=network.target
 
 [Service]
