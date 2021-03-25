@@ -114,6 +114,7 @@ def compile_module(output_filename):
         #include "phoebe.h"
         #include "filehelper.h"
         #include "stats.h"
+        unsigned int verbosity_level = 1;
         ''',
         # XXX: This mean we cannot move libphoebe.so to another path. We can
         # omit the pwd path, but then we'll need to modify LD_LIBRARY_PATH.
