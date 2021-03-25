@@ -1,49 +1,14 @@
 {
     "app_settings": {
-	// path where application is expecting to find plugins to load
-	"plugins_path": "bin/",
-
-        // max_learning_values: number of values learnt per iteration
-        "max_learning_values": 1000,
-
-        // save trained data to file every saving_loop value
+        "plugins_path": "/opt/phoebe/build/src",
+        "max_learning_values": 500000,
         "saving_loop": 1000,
-
-        // accuracy: the level of accuracy to find a potential entry
-        // given the transfer rate considered.
-        //
-        // MaxValue: Undefined, MinValue: 0.00..1
-        // Probably not very intuitive: a higher number correspondes to
-        // a higher accuracy level.
-        "accuracy": 0.5,
-
-        // approx_function: the approximation function applied
-        // to the calculated tolerance value used to find a
-        // matching entry in values.
-        //
-        // Possible values:
-        // 0 = no approximation function
-        // 1 = square-root
-        // 2 = power-of-two
-        // 3 = log10
-        // 4 = log
+        "accuracy": 1.5,
         "approx_function": 0,
-
-        // grace_period: the time which must be elapsed
-        // before applying new settings for a lower
-        // transfer rate than the one previously measured.
         "grace_period": 10,
-
-        // stats_loop_period: the cadence of time which
-        // has to be elapsed between stats collection.
-        // It is expressed in seconds but it accepts non-integer
-        // values; ie. 0.5 represents half-second
         "stats_collection_period": 0.5,
-
-        // inferece_loop_period: the time which must be
-        // elapsed before running a new inference evaluation
         "inference_loop_period": 1
-        
+
     },
     "labels": {
         "geography": "NOT_SET",
