@@ -31,6 +31,8 @@ static stats_input_param_t stats_input_params;
 
 static unsigned long matches, total = 0L;
 
+unsigned int verbosity_level = 1;
+
 void applySettings(char *interfaceName, tuning_params_t *parameters,
                    unsigned int tableIndex) {
     char netCoreCommand[MAX_COMMAND_LENGTH];
