@@ -17,7 +17,7 @@
 
 
 Name:           phoebe
-Version:        0.1.2
+Version:        0.1.1
 Release:        0
 Summary:        Phoeβe wants to add basic artificial intelligence capabilities to the Linux OS
 License:        BSD-3-Clause
