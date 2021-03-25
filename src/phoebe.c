@@ -46,6 +46,7 @@ static char interfaceName[MAX_INTERFACE_NAME_LENGTH];
 
 static plugin_t *plugins[MAX_PLUGINS];
 
+#define GLOBAL_VERBOSITY_LEVEL 1
 unsigned int verbosity_level = 1;
 
 void *runStdTraining(void *arg __attribute__((unused))) {
@@ -271,7 +272,7 @@ int registerAllPlugins() {
 
                     plugins[registered_plugin_count]->init(
                         interfaceName, &app_settings, &system_settings,
-                        &weights, &reference_values, bias);
+                        &weights, &reference_values, bias,verbosity_level);
 
                     registered_plugin_count++;
                 }

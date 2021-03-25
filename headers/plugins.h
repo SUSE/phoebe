@@ -13,7 +13,7 @@ typedef struct plugin_s {
     char name[PLUGIN_NAME_LEN];
     double version;
     void (*init)(char *, app_settings_t *, tuning_params_t *,
-                 weights_reference_t *, all_values_t *, double);
+                 weights_reference_t *, all_values_t *, double, unsigned int);
     void *(*inference)(void *thread_args);
     void (*training)(char *inputFileName);
     void (*livetraining)(char *inputFileName);

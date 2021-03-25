@@ -31,6 +31,7 @@ static stats_input_param_t stats_input_params;
 
 static unsigned long matches, total = 0L;
 
+#define GLOBAL_VERBOSITY_LEVEL 1
 unsigned int verbosity_level = 1;
 
 void applySettings(char *interfaceName, tuning_params_t *parameters,
@@ -315,7 +316,7 @@ void *networkRunInference(void *args __attribute__((unused))) {
 void networkInit(char *interfaceName, app_settings_t *network_app_settings,
                  tuning_params_t *network_settings,
                  weights_reference_t *weights, all_values_t *all_values,
-                 double bias) {
+                 double bias,unsigned int v_level) {
     pthread_mutex_init(&tableWriteLock, NULL);
 
     _network_app_settings = network_app_settings;
@@ -323,6 +324,7 @@ void networkInit(char *interfaceName, app_settings_t *network_app_settings,
     _all_values = all_values;
     _weights = weights;
     _bias = bias;
+    verbosity_level = v_level;
 
     memcpy(stats_input_params.monitored_interface, interfaceName,
            MAX_INTERFACE_NAME_LENGTH);
