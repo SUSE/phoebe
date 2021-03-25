@@ -60,7 +60,6 @@ to offer eventually the best possible setup.
 
 %files
 %license LICENSE
-%doc README.md SETUP.md
 %{_bindir}/%{name}
 %{_bindir}/data_tool
 %dir %{_libdir}/%{name}
