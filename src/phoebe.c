@@ -46,7 +46,6 @@ static char interfaceName[MAX_INTERFACE_NAME_LENGTH];
 
 static plugin_t *plugins[MAX_PLUGINS];
 
-
 void *runStdTraining(void *arg __attribute__((unused))) {
     unsigned short i;
 
@@ -139,7 +138,8 @@ int handleCommandLineArguments(int argc, char **argv) {
         /* getopt_long stores the option index here. */
         int option_index = 0;
 
-        c = getopt_long(argc, argv, "f:i:m:s:qv::", _longOptions, &option_index);
+        c = getopt_long(argc, argv, "f:i:m:s:qv::", _longOptions,
+                        &option_index);
 
         /* Detect the end of the options. */
         if (c == -1)
@@ -270,7 +270,7 @@ int registerAllPlugins() {
 
                     plugins[registered_plugin_count]->init(
                         interfaceName, &app_settings, &system_settings,
-                        &weights, &reference_values, bias,get_verbosity());
+                        &weights, &reference_values, bias, get_verbosity());
 
                     registered_plugin_count++;
                 }

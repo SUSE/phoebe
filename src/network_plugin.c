@@ -31,7 +31,6 @@ static stats_input_param_t stats_input_params;
 
 static unsigned long matches, total = 0L;
 
-
 void applySettings(char *interfaceName, tuning_params_t *parameters,
                    unsigned int tableIndex) {
     char netCoreCommand[MAX_COMMAND_LENGTH];
@@ -314,7 +313,7 @@ void *networkRunInference(void *args __attribute__((unused))) {
 void networkInit(char *interfaceName, app_settings_t *network_app_settings,
                  tuning_params_t *network_settings,
                  weights_reference_t *weights, all_values_t *all_values,
-                 double bias,unsigned int v_level) {
+                 double bias, unsigned int v_level) {
     pthread_mutex_init(&tableWriteLock, NULL);
 
     _network_app_settings = network_app_settings;

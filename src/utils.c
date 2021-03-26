@@ -23,6 +23,11 @@
 #include "stats.h"
 #include "utils.h"
 
+/*
+ * has to reside here, when it would be in the header
+ * every object file would have its own copy of
+ * verbosity_level
+ * */
 static unsigned int verbosity_level = 1;
 
 int _positionToInserElementAt(unsigned long transferRate,
@@ -524,16 +529,12 @@ extern inline void readSystemSettings(tuning_params_t *systemSettings) {
     write_log("DONE.\n");
 }
 
-void set_verbosity(unsigned int verbosity) {
-  verbosity_level = verbosity;
-}
+void set_verbosity(unsigned int verbosity) { verbosity_level = verbosity; }
 
-unsigned int get_verbosity(void) {
-  return verbosity_level;
-}
+unsigned int get_verbosity(void) { return verbosity_level; }
 
 void write_log(const char *format, ...) {
- 
+
     va_list args;
     va_start(args, format);
 
@@ -576,4 +577,3 @@ void write_dbg_log(const char *format, ...) {
         (void)format;
     }
 }
-

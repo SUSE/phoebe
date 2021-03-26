@@ -55,12 +55,11 @@ unsigned short digits(unsigned long int num);
 
 char *onOrOff(unsigned int input);
 
-
 void set_verbosity(unsigned int verbosity);
 
 unsigned int get_verbosity(void);
 
-void write_log(const char *format, ...); 
+void write_log(const char *format, ...);
 /// Write to stdout if quiet is not set
 void write_adv_log(const char *format, ...);
 /// Write to stdout when verbose flag is set
