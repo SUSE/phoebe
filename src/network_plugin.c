@@ -322,7 +322,7 @@ void networkInit(char *interfaceName, app_settings_t *network_app_settings,
     _all_values = all_values;
     _weights = weights;
     _bias = bias;
-    verbosity_level = v_level;
+    set_verbosity(v_level);
 
     memcpy(stats_input_params.monitored_interface, interfaceName,
            MAX_INTERFACE_NAME_LENGTH);

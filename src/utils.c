@@ -23,6 +23,8 @@
 #include "stats.h"
 #include "utils.h"
 
+static unsigned int verbosity_level = 1;
+
 int _positionToInserElementAt(unsigned long transferRate,
                               all_values_t *destParams, unsigned int *pivot) {
     for (*pivot = 0; *pivot < destParams->validValues; (*pivot)++) {
@@ -521,3 +523,57 @@ extern inline void readSystemSettings(tuning_params_t *systemSettings) {
 
     write_log("DONE.\n");
 }
+
+void set_verbosity(unsigned int verbosity) {
+  verbosity_level = verbosity;
+}
+
+unsigned int get_verbosity(void) {
+  return verbosity_level;
+}
+
+void write_log(const char *format, ...) {
+ 
+    va_list args;
+    va_start(args, format);
+
+    vprintf(format, args);
+    va_end(args);
+}
+/// Write to stdout if quiet is not set
+void write_adv_log(const char *format, ...) {
+    if (verbosity_level >= 1) {
+        va_list args;
+        va_start(args, format);
+
+        vprintf(format, args);
+        va_end(args);
+    } else {
+        (void)format;
+    }
+}
+/// Write to stdout when verbose flag is set
+void write_verb_log(const char *format, ...) {
+    if (verbosity_level >= 2) {
+        va_list args;
+        va_start(args, format);
+
+        vprintf(format, args);
+        va_end(args);
+    } else {
+        (void)format;
+    }
+}
+/// Write to stdout when  more verbose flag is set
+void write_dbg_log(const char *format, ...) {
+    if (verbosity_level >= 3) {
+        va_list args;
+        va_start(args, format);
+
+        vprintf(format, args);
+        va_end(args);
+    } else {
+        (void)format;
+    }
+}
+

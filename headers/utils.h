@@ -55,51 +55,17 @@ unsigned short digits(unsigned long int num);
 
 char *onOrOff(unsigned int input);
 
-static unsigned int verbosity_level = 1;
 
-static inline void write_log(const char *format, ...) {
- 
-    va_list args;
-    va_start(args, format);
+void set_verbosity(unsigned int verbosity);
 
-    vprintf(format, args);
-    va_end(args);
-}
+unsigned int get_verbosity(void);
+
+void write_log(const char *format, ...); 
 /// Write to stdout if quiet is not set
-static inline void write_adv_log(const char *format, ...) {
-    if (verbosity_level >= 1) {
-        va_list args;
-        va_start(args, format);
-
-        vprintf(format, args);
-        va_end(args);
-    } else {
-        (void)format;
-    }
-}
+void write_adv_log(const char *format, ...);
 /// Write to stdout when verbose flag is set
-static inline void write_verb_log(const char *format, ...) {
-    if (verbosity_level >= 2) {
-        va_list args;
-        va_start(args, format);
-
-        vprintf(format, args);
-        va_end(args);
-    } else {
-        (void)format;
-    }
-}
+void write_verb_log(const char *format, ...);
 /// Write to stdout when  more verbose flag is set
-static inline void write_dbg_log(const char *format, ...) {
-    if (verbosity_level >= 3) {
-        va_list args;
-        va_start(args, format);
-
-        vprintf(format, args);
-        va_end(args);
-    } else {
-        (void)format;
-    }
-}
+void write_dbg_log(const char *format, ...);
 
 #endif

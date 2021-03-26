@@ -139,7 +139,7 @@ int handleCommandLineArguments(int argc, char **argv) {
         /* getopt_long stores the option index here. */
         int option_index = 0;
 
-        c = getopt_long(argc, argv, "f:i:m:s:qv:", _longOptions, &option_index);
+        c = getopt_long(argc, argv, "f:i:m:s:qv::", _longOptions, &option_index);
 
         /* Detect the end of the options. */
         if (c == -1)
@@ -186,13 +186,13 @@ int handleCommandLineArguments(int argc, char **argv) {
         } break;
 
         case 'q': {
-            verbosity_level = 1;
+            set_verbosity(0);
         } break;
 
         case 'v': {
-            verbosity_level = 2;
+            set_verbosity(1);
             if (optarg != NULL && strncmp(optarg, "v", strlen("v"))) {
-                verbosity_level = 2;
+                set_verbosity(2);
             }
         } break;
 
@@ -270,7 +270,7 @@ int registerAllPlugins() {
 
                     plugins[registered_plugin_count]->init(
                         interfaceName, &app_settings, &system_settings,
-                        &weights, &reference_values, bias,verbosity_level);
+                        &weights, &reference_values, bias,get_verbosity());
 
                     registered_plugin_count++;
                 }
@@ -295,7 +295,6 @@ int main(int argc, char **argv) {
     // that it can be used before
     if (handleCommandLineArguments(argc, argv) == RET_FAIL)
         exit(RET_FAIL);
-
 #ifdef M_THREADS
     retrieveNumberOfCores(&n_threads);
 #else
