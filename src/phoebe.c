@@ -46,8 +46,6 @@ static char interfaceName[MAX_INTERFACE_NAME_LENGTH];
 
 static plugin_t *plugins[MAX_PLUGINS];
 
-#define GLOBAL_VERBOSITY_LEVEL 1
-unsigned int verbosity_level = 1;
 
 void *runStdTraining(void *arg __attribute__((unused))) {
     unsigned short i;

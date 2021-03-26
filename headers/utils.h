@@ -55,8 +55,8 @@ unsigned short digits(unsigned long int num);
 
 char *onOrOff(unsigned int input);
 
-extern unsigned int verbosity_level;
-/// Write to stdout all the time
+static unsigned int verbosity_level = 1;
+
 static inline void write_log(const char *format, ...) {
  
     va_list args;
@@ -65,14 +65,8 @@ static inline void write_log(const char *format, ...) {
     vprintf(format, args);
     va_end(args);
 }
-#ifndef VERBOSITY_LEVEL
-#define VERBOSITY_LEVEL 1
-#endif
 /// Write to stdout if quiet is not set
 static inline void write_adv_log(const char *format, ...) {
-#ifndef GLOBAL_VERBOSITY_LEVEL
-    unsigned int verbosity_level = VERBOSITY_LEVEL;
-#endif
     if (verbosity_level >= 1) {
         va_list args;
         va_start(args, format);
@@ -85,9 +79,6 @@ static inline void write_adv_log(const char *format, ...) {
 }
 /// Write to stdout when verbose flag is set
 static inline void write_verb_log(const char *format, ...) {
-#ifndef GLOBAL_VERBOSITY_LEVEL
-    unsigned int verbosity_level = VERBOSITY_LEVEL;
-#endif
     if (verbosity_level >= 2) {
         va_list args;
         va_start(args, format);
@@ -100,9 +91,6 @@ static inline void write_verb_log(const char *format, ...) {
 }
 /// Write to stdout when  more verbose flag is set
 static inline void write_dbg_log(const char *format, ...) {
-#ifndef GLOBAL_VERBOSITY_LEVEL
-    unsigned int verbosity_level = VERBOSITY_LEVEL;
-#endif
     if (verbosity_level >= 3) {
         va_list args;
         va_start(args, format);
