@@ -26,7 +26,7 @@ jobs:
 
     - name: build source RPM
       run: |
-        export VERSION=0.1
+        export VERSION=0.1.1
         git archive --format=tar.gz --output=phoebe-${VERSION}.tar.gz --prefix=phoebe-${VERSION}/ HEAD
         mock -r /etc/mock/opensuse-tumbleweed-x86_64.cfg --verbose \
             --isolation=simple --buildsrpm \

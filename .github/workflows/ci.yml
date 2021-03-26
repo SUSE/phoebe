@@ -135,7 +135,7 @@ jobs:
     - name: install dependencies
       run: |
         apt update
-        apt install -y curl xz-utils clang ninja-build python3-pip pkg-config libnl-3-dev libnl-nf-3-dev libjson-c-dev tzdata libncurses5 jq bash
+        apt install -y curl xz-utils clang ninja-build python3-pip pkg-config libnl-3-dev libnl-nf-3-dev libjson-c-dev tzdata libncurses5 jq bash systemd
         pip3 install meson
       env:
         DEBIAN_FRONTEND: noninteractive

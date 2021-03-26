@@ -37,10 +37,13 @@ foreach opt : options
   endif
 endforeach
 
+
 subdir('conf')
 subdir('src')
 subdir('scripts')
+subdir('dist')
 if get_option('with_tests')
   subdir('tests')
 endif
 subdir('csv_files')
+
