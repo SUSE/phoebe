@@ -105,7 +105,7 @@ void printHelp(char *argv0) {
     printf("\t-i, --interface\t\tinterface to monitor\n");
     printf("\t-m, --mode\t\ttraining | live-training | inference\n");
     printf("\t-s, --settings\t\tJSON file for app-settings\n");
-    printf("\t-v, --verbose\t\tBe more verbose, repeat to be more verbos\n");
+    printf("\t-v, --verbose\t\tBe verbose, repeat to be more verbose\n");
     printf("\t-q, --quite\t\tBe quite, just print startup message\n");
     printf("\t-?\t\t\tprints this help and exit\n");
     printf("\tDeprecated switches:\n");
