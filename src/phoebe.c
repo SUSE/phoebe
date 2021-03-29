@@ -105,6 +105,8 @@ void printHelp(char *argv0) {
     printf("\t-i, --interface\t\tinterface to monitor\n");
     printf("\t-m, --mode\t\ttraining | live-training | inference\n");
     printf("\t-s, --settings\t\tJSON file for app-settings\n");
+    printf("\t-v, --verbose\t\tBe verbose, repeat to be more verbose\n");
+    printf("\t-q, --quite\t\tBe quite, just print startup message\n");
     printf("\t-?\t\t\tprints this help and exit\n");
     printf("\tDeprecated switches:\n");
     printf("\t-f, --csvfile\t\tinput-file path\n");
@@ -130,11 +132,14 @@ int handleCommandLineArguments(int argc, char **argv) {
             {"interface", required_argument, 0, 'i'},
             {"mode", required_argument, 0, 'm'},
             {"settings", optional_argument, 0, 's'},
+            {"quiet", no_argument, 0, 'q'},
+            {"verbose", optional_argument, 0, 'v'},
             {0, 0, 0, 0}};
         /* getopt_long stores the option index here. */
         int option_index = 0;
 
-        c = getopt_long(argc, argv, "f:i:m:s:", _longOptions, &option_index);
+        c = getopt_long(argc, argv, "f:i:m:s:qv::", _longOptions,
+                        &option_index);
 
         /* Detect the end of the options. */
         if (c == -1)
@@ -178,6 +183,17 @@ int handleCommandLineArguments(int argc, char **argv) {
             memset(settingsFileName, 0, MAX_FILENAME_LENGTH);
             if (optarg != NULL)
                 memcpy(settingsFileName, optarg, strlen(optarg));
+        } break;
+
+        case 'q': {
+            set_verbosity(0);
+        } break;
+
+        case 'v': {
+            set_verbosity(1);
+            if (optarg != NULL && strncmp(optarg, "v", strlen("v"))) {
+                set_verbosity(2);
+            }
         } break;
 
         case '?':
@@ -254,7 +270,7 @@ int registerAllPlugins() {
 
                     plugins[registered_plugin_count]->init(
                         interfaceName, &app_settings, &system_settings,
-                        &weights, &reference_values, bias);
+                        &weights, &reference_values, bias, get_verbosity());
 
                     registered_plugin_count++;
                 }
@@ -275,9 +291,10 @@ int main(int argc, char **argv) {
     signal(SIGINT, handleSigint);
     signal(SIGHUP, handleSighup);
 
+    // set default verbosity setting before cmdline parsing, so
+    // that it can be used before
     if (handleCommandLineArguments(argc, argv) == RET_FAIL)
         exit(RET_FAIL);
-
 #ifdef M_THREADS
     retrieveNumberOfCores(&n_threads);
 #else
