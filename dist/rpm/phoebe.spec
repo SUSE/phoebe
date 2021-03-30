@@ -62,16 +62,16 @@ to offer eventually the best possible setup.
 mkdir -p %{buildroot}%{_sbindir}
 ln -s /usr/sbin/service %{buildroot}%{_sbindir}/rcphoebe
 
-%pre 
+%pre
 %service_add_pre phoebe.service
 
 %post
 %service_add_post phoebe.service
 
-%preun 
+%preun
 %service_del_preun phoebe.service
 
-%postun 
+%postun
 %service_del_postun phoebe.service
 
 %files
