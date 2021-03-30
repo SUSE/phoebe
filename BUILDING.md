@@ -23,6 +23,9 @@ There are few compile-time flags which can be passed to Meson to enable some cod
 * **apply_changes**: this enables the application to actually apply the settings via `sysctl`/`ethtool` command
 * **check_initial_settings**: when enabled, this will prevent the application from applying lower settings than the ones already applied to the system at bootstrap
 * **m_threads**: when enabled, this will run training using as many threads as available cores on the machine
+* **collector**: when enabled, then the library requirements for the script `collect_stats.py` will be included in the build
+* **with_tests**: the tests will be build as well when enabled (this requires the cmocka library to be installed)
+* **use_linear_regression**: use linear regression as the MI algorithm
 
 These flags can be enabled by passing them to the Meson configure step:
 
