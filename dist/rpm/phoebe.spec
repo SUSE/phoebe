@@ -59,9 +59,12 @@ to offer eventually the best possible setup.
 
 %install
 %meson_install
+%if 0%{?suse_version}
 mkdir -p %{buildroot}%{_sbindir}
 ln -s /usr/sbin/service %{buildroot}%{_sbindir}/rcphoebe
+%endif
 
+%if 0%{?suse_version}
 %pre
 %service_add_pre phoebe.service
 
@@ -74,6 +77,18 @@ ln -s /usr/sbin/service %{buildroot}%{_sbindir}/rcphoebe
 %postun
 %service_del_postun phoebe.service
 
+%else
+
+%post
+%{systemd_post phoebe.service}
+
+%preun
+%{systemd_preun phoebe.service}
+
+%postun
+%{systemd_postun_with_restart phoebe.service}
+%endif
+
 %files
 %license LICENSE
 %{_bindir}/%{name}
@@ -85,6 +100,8 @@ ln -s /usr/sbin/service %{buildroot}%{_sbindir}/rcphoebe
 %{_datadir}/%{name}/rates.csv
 %config(noreplace) %{_sysconfdir}/%{name}/settings.json
 %{_unitdir}/phoebe.service
+%if 0%{?suse_version}
 %{_sbindir}/rcphoebe
+%endif
 
 %changelog
