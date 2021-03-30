@@ -28,11 +28,11 @@ option(
 )
 option(
   'with_tests', type : 'boolean', value : true,
-  description : 'when enabled, then the tests will be build and run as well'
+  description : 'build and run the tests as well when enabled'
 )
 option(
   'use_linear_regression', type : 'boolean', value : true,
-  description : 'it is enabled by default to make Phoebe use the linear regression algorithm'
+  description : 'Phoebe will use the linear regression algorithm when enabled'
 )
 option(
   'systemd_system_unit_dir', type : 'string',
