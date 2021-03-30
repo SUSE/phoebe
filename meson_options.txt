@@ -23,15 +23,18 @@ option(
   description : 'when enabled will run training using as many threads as cores are available on the machine'
 )
 option(
-  'collector', type : 'feature', value : 'auto',
+  'collector', type : 'feature', value : 'enabled',
   description : 'when enabled will build library requires for collect_stats.py, which is used to collect system metrics to train the AI model'
 )
 option(
   'with_tests', type : 'boolean', value : true,
-  description : 'when enabled, then the tests will be build and run as well'
+  description : 'build and run the tests as well when enabled'
 )
 option(
   'use_linear_regression', type : 'boolean', value : true,
-  description : 'it is enabled by default to make Phoebe use the linear regression algorithm'
+  description : 'Phoebe will use the linear regression algorithm when enabled'
 )
-
+option(
+  'systemd_system_unit_dir', type : 'string',
+  description : 'Folder into which phoebe.service is installed'
+)

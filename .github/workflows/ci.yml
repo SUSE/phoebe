@@ -148,7 +148,7 @@ jobs:
         VERSION: 1.0.0
 
     - name: configure for clang
-      run: /usr/local/bin/meson -Dprint_advanced_messages=true -Dprint_table=true -Dcheck_initial_settings=true -Dbuildtype=release -Dwith_tests=false build_clang
+      run: /usr/local/bin/meson -Dprint_advanced_messages=true -Dprint_table=true -Dcheck_initial_settings=true -Dbuildtype=release -Dwith_tests=false -Dcollector=disabled build_clang
       env:
         CC: clang
 

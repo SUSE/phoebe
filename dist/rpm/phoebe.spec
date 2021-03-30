@@ -32,7 +32,7 @@ BuildRequires:  python3-cffi
 BuildRequires:  python3-devel
 BuildRequires:  python3-pycparser
 %{?systemd_ordering}
-BuildRequires:  pkgconfig(systemd)
+BuildRequires:  systemd-rpm-macros
 
 %description
 
@@ -54,25 +54,40 @@ to offer eventually the best possible setup.
 %build
 # export build flags manually if %%set_build_flags is not defined
 %{?!set_build_flags:export CFLAGS="%{optflags}"; export LDFLAGS="${RPM_LD_FLAGS}"}
-%meson -Dwith_tests=false
+%meson -Dwith_tests=false -Dsystemd_system_unit_dir=%{_unitdir}
 %meson_build
 
 %install
 %meson_install
+%if 0%{?suse_version}
 mkdir -p %{buildroot}%{_sbindir}
 ln -s /usr/sbin/service %{buildroot}%{_sbindir}/rcphoebe
+%endif
 
-%pre 
+%if 0%{?suse_version}
+%pre
 %service_add_pre phoebe.service
 
 %post
 %service_add_post phoebe.service
 
-%preun 
+%preun
 %service_del_preun phoebe.service
 
-%postun 
+%postun
 %service_del_postun phoebe.service
+
+%else
+
+%post
+%{systemd_post phoebe.service}
+
+%preun
+%{systemd_preun phoebe.service}
+
+%postun
+%{systemd_postun_with_restart phoebe.service}
+%endif
 
 %files
 %license LICENSE
@@ -85,6 +100,8 @@ ln -s /usr/sbin/service %{buildroot}%{_sbindir}/rcphoebe
 %{_datadir}/%{name}/rates.csv
 %config(noreplace) %{_sysconfdir}/%{name}/settings.json
 %{_unitdir}/phoebe.service
+%if 0%{?suse_version}
 %{_sbindir}/rcphoebe
+%endif
 
 %changelog
