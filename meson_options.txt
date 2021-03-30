@@ -34,4 +34,7 @@ option(
   'use_linear_regression', type : 'boolean', value : true,
   description : 'it is enabled by default to make Phoebe use the linear regression algorithm'
 )
-
+option(
+  'systemd_system_unit_dir', type : 'string',
+  description : 'Folder into which phoebe.service is installed'
+)
