@@ -46,6 +46,9 @@ static char interfaceName[MAX_INTERFACE_NAME_LENGTH];
 
 static plugin_t *plugins[MAX_PLUGINS];
 
+static pthread_t *threads;
+static unsigned int n_threads = 1;
+
 void *runStdTraining(void *arg __attribute__((unused))) {
     unsigned short i;
 
@@ -65,14 +68,15 @@ void runLiveTraining() {
 void runInference() {
     unsigned short i;
 
-    pthread_t threads[MAX_PLUGINS];
-    memset(threads, 0, MAX_PLUGINS * sizeof(pthread_t));
+    threads = calloc(MAX_PLUGINS,sizeof(pthread_t));
+    n_threads = MAX_PLUGINS;
 
     for (i = 0; i < registered_plugin_count; i++)
         pthread_create(&threads[i], NULL, plugins[i]->inference, NULL);
 
     for (i = 0; i < registered_plugin_count; i++)
         pthread_join(threads[i], NULL);
+    free(threads);
 }
 
 void handleSigint(int sig __attribute__((unused))) {
@@ -286,7 +290,6 @@ int main(int argc, char **argv) {
     (void)argv;
     FILE *inputDataFile;
 
-    unsigned int n_threads;
 
     signal(SIGINT, handleSigint);
     signal(SIGHUP, handleSighup);
@@ -354,14 +357,14 @@ int main(int argc, char **argv) {
 
         printf("Augmenting data...\n");
 
-        pthread_t threads[n_threads];
-        memset(threads, 0, n_threads * sizeof(pthread_t));
+        threads = calloc(n_threads,sizeof(pthread_t));
         for (unsigned int i = 0; i < n_threads; i++)
             pthread_create(&threads[i], NULL, runStdTraining, NULL);
 
         for (unsigned int i = 0; i < n_threads; i++)
             pthread_join(threads[i], NULL);
 
+        free(threads);
         printf("DONE.\n");
 
         // printTable(&allValues);
