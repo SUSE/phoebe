@@ -68,18 +68,17 @@ void runInference() {
     threads = calloc(registered_plugin_count,sizeof(pthread_t));
     n_threads = registered_plugin_count;
 
-    for (unsigned int i = 0; i < registered_plugin_count; i++)
+    for (unsigned int i = 0; i < n_threads; i++)
         pthread_create(&threads[i], NULL, plugins[i]->inference, NULL);
 
-    for (unsigned int i = 0; i < registered_plugin_count; i++)
+    for (unsigned int i = 0; i < n_threads; i++)
         pthread_join(threads[i], NULL);
     free(threads);
 }
 
 void handleSigint(int sig __attribute__((unused))) {
-    unsigned short i;
 
-    for (i = 0; i < registered_plugin_count; i++)
+    for (unsigned int i = 0; i < registered_plugin_count; i++)
         plugins[i]->print_report();
     /* end threads */
     for (unsigned int i = 0; i < n_threads; i++)
@@ -291,6 +290,7 @@ int main(int argc, char **argv) {
 
 
     signal(SIGINT, handleSigint);
+    signal(SIGTERM,handleSigint);
     signal(SIGHUP, handleSighup);
 
     // set default verbosity setting before cmdline parsing, so
