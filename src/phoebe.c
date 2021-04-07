@@ -39,49 +39,51 @@ static app_settings_t app_settings;
 static tuning_params_t system_settings;
 static label_t labels;
 
-static int registered_plugin_count = 0;
+static unsigned int registered_plugin_count = 0;
 
 static char operationalMode[MAX_COMMAND_LENGTH];
 static char interfaceName[MAX_INTERFACE_NAME_LENGTH];
 
 static plugin_t *plugins[MAX_PLUGINS];
 
-void *runStdTraining(void *arg __attribute__((unused))) {
-    unsigned short i;
+static pthread_t *threads;
+static unsigned int n_threads = 1;
 
-    for (i = 0; i < registered_plugin_count; i++)
+void *runStdTraining(void *arg __attribute__((unused))) {
+
+    for (unsigned int i = 0; i < registered_plugin_count; i++)
         plugins[i]->training(inputFileName);
 
     return NULL;
 }
 
 void runLiveTraining() {
-    unsigned short i;
 
-    for (i = 0; i < registered_plugin_count; i++)
+    for (unsigned int i = 0; i < registered_plugin_count; i++)
         plugins[i]->livetraining(inputFileName);
 }
 
 void runInference() {
-    unsigned short i;
 
-    pthread_t threads[MAX_PLUGINS];
-    memset(threads, 0, MAX_PLUGINS * sizeof(pthread_t));
+    threads = calloc(registered_plugin_count, sizeof(pthread_t));
+    n_threads = registered_plugin_count;
 
-    for (i = 0; i < registered_plugin_count; i++)
+    for (unsigned int i = 0; i < n_threads; i++)
         pthread_create(&threads[i], NULL, plugins[i]->inference, NULL);
 
-    for (i = 0; i < registered_plugin_count; i++)
+    for (unsigned int i = 0; i < n_threads; i++)
         pthread_join(threads[i], NULL);
+    free(threads);
 }
 
 void handleSigint(int sig __attribute__((unused))) {
-    unsigned short i;
 
-    for (i = 0; i < registered_plugin_count; i++)
+    for (unsigned int i = 0; i < registered_plugin_count; i++)
         plugins[i]->print_report();
+    /* end threads */
+    for (unsigned int i = 0; i < n_threads; i++)
+        pthread_cancel(threads[i]);
 
-    free(reference_values.parameters);
     fflush(stdout);
 }
 
@@ -286,9 +288,8 @@ int main(int argc, char **argv) {
     (void)argv;
     FILE *inputDataFile;
 
-    unsigned int n_threads;
-
     signal(SIGINT, handleSigint);
+    signal(SIGTERM, handleSigint);
     signal(SIGHUP, handleSighup);
 
     // set default verbosity setting before cmdline parsing, so
@@ -354,14 +355,14 @@ int main(int argc, char **argv) {
 
         printf("Augmenting data...\n");
 
-        pthread_t threads[n_threads];
-        memset(threads, 0, n_threads * sizeof(pthread_t));
+        threads = calloc(n_threads, sizeof(pthread_t));
         for (unsigned int i = 0; i < n_threads; i++)
             pthread_create(&threads[i], NULL, runStdTraining, NULL);
 
         for (unsigned int i = 0; i < n_threads; i++)
             pthread_join(threads[i], NULL);
 
+        free(threads);
         printf("DONE.\n");
 
         // printTable(&allValues);
