@@ -1,6 +1,7 @@
 {
     "app_settings": {
-        "plugins_path": "/opt/phoebe/build/src",
+        "plugins_path": "@plugin_path@",
+        "rates_filename": "@rates_file@",
         "max_learning_values": 500000,
         "saving_loop": 1000,
         "accuracy": 1.5,
