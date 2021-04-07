@@ -65,8 +65,8 @@ void runLiveTraining() {
 
 void runInference() {
 
-    threads = calloc(MAX_PLUGINS,sizeof(pthread_t));
-    n_threads = MAX_PLUGINS;
+    threads = calloc(registered_plugin_count,sizeof(pthread_t));
+    n_threads = registered_plugin_count;
 
     for (unsigned int i = 0; i < registered_plugin_count; i++)
         pthread_create(&threads[i], NULL, plugins[i]->inference, NULL);
@@ -81,8 +81,10 @@ void handleSigint(int sig __attribute__((unused))) {
 
     for (i = 0; i < registered_plugin_count; i++)
         plugins[i]->print_report();
+    /* end threads */
+    for (unsigned int i = 0; i < n_threads; i++)
+        pthread_cancel(threads[i]);
 
-    free(reference_values.parameters);
     fflush(stdout);
 }
 
