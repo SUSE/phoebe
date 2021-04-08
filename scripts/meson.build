@@ -12,9 +12,10 @@ abi_src = custom_target(
   output : ['_phoebe.c'],
   command : [prog_python, '@INPUT@', 'generate', '@OUTPUT@'],
 )
-abi = shared_library(
-  '_phoebe.abi3',
+abi = prog_python.extension_module(
+  '_phoebe',
   abi_src, stat_src, common_src,
-  name_prefix : '',
   dependencies : [prog_python.dependency(embed : true), common_dep, nl_nf_3],
+  install: true,
+  install_dir : prog_python.get_install_dir()
 )
