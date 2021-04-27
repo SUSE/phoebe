@@ -2,8 +2,11 @@ prog_python = import('python').find_installation(
   'python3',
   required : get_option('collector'),
   modules : ['cffi'],
-  disabler : true,
 )
+if not prog_python.found()
+  prog_python = disabler()
+endif
+
 collector_script = files('collect_stats.py')
 
 abi_src = custom_target(
