@@ -28,9 +28,6 @@ BuildRequires:  pkgconfig(libnl-3.0)
 BuildRequires:  pkgconfig(libnl-nf-3.0)
 BuildRequires:  meson
 BuildRequires:  gcc
-BuildRequires:  python3-cffi
-BuildRequires:  python3-devel
-BuildRequires:  python3-pycparser
 %{?systemd_ordering}
 BuildRequires:  systemd-rpm-macros
 
@@ -54,7 +51,7 @@ to offer eventually the best possible setup.
 %build
 # export build flags manually if %%set_build_flags is not defined
 %{?!set_build_flags:export CFLAGS="%{optflags}"; export LDFLAGS="${RPM_LD_FLAGS}"}
-%meson -Dwith_tests=false -Dsystemd_system_unit_dir=%{_unitdir}
+%meson -Dwith_tests=false -Dsystemd_system_unit_dir=%{_unitdir} -Dcollector=disabled
 %meson_build
 
 %install
