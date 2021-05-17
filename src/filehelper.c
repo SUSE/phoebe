@@ -221,8 +221,11 @@ int readSettingsFromJsonFile(char *settingsFileName, app_settings_t *settings,
                                   &rates_filename)) {
         assert(sizeof(settings->rates_filename) >
                (long unsigned int)json_object_get_string_len(rates_filename));
-        memcpy(settings->rates_filename, json_object_get_string(rates_filename),
-               json_object_get_string_len(rates_filename) + 1);
+
+        if (strlen(settings->rates_filename) == 0)
+            memcpy(settings->rates_filename,
+                   json_object_get_string(rates_filename),
+                   json_object_get_string_len(rates_filename) + 1);
 
         write_adv_log("settings->rates_filename: %s\n",
                       settings->rates_filename);

@@ -292,6 +292,9 @@ int main(int argc, char **argv) {
     signal(SIGTERM, handleSigint);
     signal(SIGHUP, handleSighup);
 
+    bzero(&app_settings, sizeof(app_settings_t));
+    bzero(&system_settings, sizeof(tuning_params_t));
+
     // set default verbosity setting before cmdline parsing, so
     // that it can be used before
     if (handleCommandLineArguments(argc, argv) == RET_FAIL)
